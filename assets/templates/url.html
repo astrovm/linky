@@ -1,0 +1,50 @@
+<div class="flex-center">
+  <div class="container" ng-controller="UrlCtrl">
+    <div class="row flex-center">
+      <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 jumbotron">
+        <h1 align="center"><small class="white-text">URL Shortener for cool people.</small></h1>
+        <br>
+        <div id="url-form" class="flex-center row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-11 text-center">
+            <form ng-submit="createUrl()">
+              <div class="form-group">
+                <label>Paste your long URL here</label>
+                <input class="form-control input-lg" type="text" ng-model="formData.target" placeholder="http://" required>
+              </div>
+              <div class="form-group">
+                <label>Custom alias (optional)</label>
+                <input class="form-control input-lg" type="text" ng-model="formData.id">
+              </div>
+              <div class="form-group">
+                <label>Password (optional)</label>
+                <input class="form-control input-lg" type="password" ng-model="formData.password">
+              </div>
+              <div class="form-group">
+                <label>Email (optional)</label>
+                <input class="form-control input-lg" type="email" ng-model="formData.email">
+              </div>
+              <div class="form-group">
+                <label class="checkbox-inline"><input ng-model="formData.emailalerts" type="checkbox">Email alerts</label>
+                <label class="checkbox-inline"><input ng-model="formData.telealerts" type="checkbox">Telegram alerts</label>
+                <label class="checkbox-inline"><input ng-model="formData.captcha" type="checkbox">Request captcha</label>
+              </div>
+              <br>
+              <div align="center">
+                <button type="submit" class="btn btn-primary btn-lg">Shorten URL</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div ng-if="newUrlData" id="url-result" class="row flex-center">
+      <div class="col-xs-11 col-sm-10 col-md-8 col-lg-7 text-center alert alert-success" role="alert">
+        <h3>Linky created: <a ng-href="{{ newUrlData.url }}" class="alert-link">{{ newUrlData.url }}</a></h3>
+        <div ng-if="newUrlData.telecommand">
+          <h4 >Send that to <a href="https://telegram.me/LinkyURLbot">@LinkyURLbot</a> to enable Telegram alerts:</h4>
+          <pre>{{ newUrlData.telecommand }}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

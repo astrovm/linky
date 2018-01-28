@@ -1,0 +1,28 @@
+<div class="flex-center">
+  <div class="container" ng-controller="UrlPassCtrl">
+    <div class="row flex-center">
+      <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 jumbotron">
+        <h1 align="center"><small class="white-text">Password</small></h1>
+        <br>
+        <div id="url-form" class="flex-center row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-11 text-center">
+            <form ng-submit="sendPass()">
+              <div class="form-group">
+                <input class="form-control input-lg" type="password" ng-model="formData.password">
+              </div>
+              <br>
+              <div align="center">
+                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div ng-if="resData" id="url-result" class="row flex-center">
+      <div class="col-xs-11 col-sm-10 col-md-8 col-lg-7 text-center alert alert-danger" role="alert">
+        <h3>{{ resData }}</h3>
+      </div>
+    </div>  
+  </div>
+</div>
