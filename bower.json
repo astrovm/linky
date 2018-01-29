@@ -17,5 +17,8 @@
     "bootstrap": "~3.3.7",
     "underscore": "^1.8.3",
     "components-font-awesome": "^4.6.3"
+  },
+  "resolutions": {
+    "angular": ">=1.4.0"
   }
 }
