@@ -68,35 +68,5 @@ module.exports = {
       teleParams.geo = countries.getName(teleParams.geo)
     }
     bot.sendMessage(teleParams.teleid, teleParams.ip + ' with ' + teleParams.agent + ' in ' + teleParams.urlAlias + ' ==> ' + teleParams.target + ' from ' + teleParams.geo)
-  },
-
-  sendPass: function (urlParams, next) {
-    UrlService.getUrl(urlParams.id, function (url) {
-      if (url) {
-        // Compare a plaintext password attempt against an already-encrypted version.
-        Passwords.checkPassword({
-          passwordAttempt: urlParams.passwordAttempt,
-          encryptedPassword: url.password
-        }).exec({
-          // An unexpected error occurred.
-          error: function (err) {
-            next('An unexpected error occurred.')
-          },
-          // Password attempt does not match already-encrypted version
-          incorrect: function () {
-            next('Incorrect password.')
-          },
-          // OK.
-          success: function () {
-            var params = {
-              urlRedirectTarget: url.target
-            }
-            next(params)
-          }
-        })
-      } else {
-        next('This alias not exists.')
-      }
-    })
   }
 }
