@@ -1,8 +1,8 @@
 /**
  * UrlController
  *
- * @description :: Server-side logic for managing urls
- * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
+ * @description :: Server-side actions for handling incoming requests.
+ * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
     UrlService.getUrl(urlId, function(url) {
       if (url != undefined) {
         res.set('Cache-Control', 'public, max-age=5');
-        // Check if the URL has password and request it in that case 
+        // Check if the URL has password and request it in that case
         if (url.password == null) {
           res.redirect(url.target);
         } else {
