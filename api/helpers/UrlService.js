@@ -1,8 +1,8 @@
-var countries = require('country-list')(),
-  Passwords = require('machinepack-passwords'),
-  URLs = require('machinepack-urls'),
-  TelegramBot = require('node-telegram-bot-api'),
-  bot = new TelegramBot(process.env.TELE_TOKEN, { polling: true })
+const countries = require('country-list')()
+const Passwords = require('machinepack-passwords')
+const URLs = require('machinepack-urls')
+const TelegramBot = require('node-telegram-bot-api')
+const bot = new TelegramBot(process.env.TELE_TOKEN, { polling: true })
 
 bot.onText(/\/?getid/i, function (msg, match) {
   var fromId = msg.from.id
@@ -65,12 +65,6 @@ bot.onText(/\/?alert (.+)/i, function (msg, match) {
 })
 
 module.exports = {
-  getUrl: function (urlId, next) {
-    Url.findOne({ where: { id: urlId } }).exec(function (err, url) {
-      if (err) throw err
-      next(url)
-    })
-  },
 
   teleAlert: function (teleParams) {
     if (teleParams.geo) {

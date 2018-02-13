@@ -2144,9 +2144,9 @@ strats.computed = function (parentVal, childVal) {
             } else {
               setTimeout(function () {
                 if (isUndef(factory.resolved) && isUndef(factory.error)) {
-                factory.loading = true
-                forceRender()
-              }
+                  factory.loading = true
+                  forceRender()
+                }
               }, res.delay || 200)
             }
           }
@@ -5348,37 +5348,37 @@ strats.computed = function (parentVal, childVal) {
           oldStartVnode = oldCh[++oldStartIdx]
           newEndVnode = newCh[--newEndIdx]
         } else if (sameVnode(oldEndVnode, newStartVnode)) { // Vnode moved left
-        patchVnode(oldEndVnode, newStartVnode, insertedVnodeQueue)
-        canMove && nodeOps.insertBefore(parentElm, oldEndVnode.elm, oldStartVnode.elm)
-        oldEndVnode = oldCh[--oldEndIdx]
-        newStartVnode = newCh[++newStartIdx]
-      } else {
-        if (isUndef(oldKeyToIdx)) { oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx) }
-        idxInOld = isDef(newStartVnode.key) ? oldKeyToIdx[newStartVnode.key] : null
-        if (isUndef(idxInOld)) { // New element
-          createElm(newStartVnode, insertedVnodeQueue, parentElm, oldStartVnode.elm)
+          patchVnode(oldEndVnode, newStartVnode, insertedVnodeQueue)
+          canMove && nodeOps.insertBefore(parentElm, oldEndVnode.elm, oldStartVnode.elm)
+          oldEndVnode = oldCh[--oldEndIdx]
           newStartVnode = newCh[++newStartIdx]
         } else {
-          elmToMove = oldCh[idxInOld]
+          if (isUndef(oldKeyToIdx)) { oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx) }
+          idxInOld = isDef(newStartVnode.key) ? oldKeyToIdx[newStartVnode.key] : null
+          if (isUndef(idxInOld)) { // New element
+            createElm(newStartVnode, insertedVnodeQueue, parentElm, oldStartVnode.elm)
+            newStartVnode = newCh[++newStartIdx]
+          } else {
+            elmToMove = oldCh[idxInOld]
           /* istanbul ignore if */
-          if (!IS_VUE_RUNNING_IN_PRODUCTION_OR_STAGING && !elmToMove) {
-            warn(
+            if (!IS_VUE_RUNNING_IN_PRODUCTION_OR_STAGING && !elmToMove) {
+              warn(
               'It seems there are duplicate keys that is causing an update error. ' +
               'Make sure each v-for item has a unique key.'
             )
-          }
-          if (sameVnode(elmToMove, newStartVnode)) {
-            patchVnode(elmToMove, newStartVnode, insertedVnodeQueue)
-            oldCh[idxInOld] = undefined
-            canMove && nodeOps.insertBefore(parentElm, elmToMove.elm, oldStartVnode.elm)
-            newStartVnode = newCh[++newStartIdx]
-          } else {
+            }
+            if (sameVnode(elmToMove, newStartVnode)) {
+              patchVnode(elmToMove, newStartVnode, insertedVnodeQueue)
+              oldCh[idxInOld] = undefined
+              canMove && nodeOps.insertBefore(parentElm, elmToMove.elm, oldStartVnode.elm)
+              newStartVnode = newCh[++newStartIdx]
+            } else {
             // same key but different element. treat as new element
-            createElm(newStartVnode, insertedVnodeQueue, parentElm, oldStartVnode.elm)
-            newStartVnode = newCh[++newStartIdx]
+              createElm(newStartVnode, insertedVnodeQueue, parentElm, oldStartVnode.elm)
+              newStartVnode = newCh[++newStartIdx]
+            }
           }
         }
-      }
       }
       if (oldStartIdx > oldEndIdx) {
         refElm = isUndef(newCh[newEndIdx + 1]) ? null : newCh[newEndIdx + 1].elm
@@ -5893,35 +5893,35 @@ strats.computed = function (parentVal, childVal) {
     ) {
         if (expression === undefined) {
         // first filter, end of expression
-        lastFilterIndex = i + 1
-        expression = exp.slice(0, i).trim()
-      } else {
-        pushFilter()
-      }
+          lastFilterIndex = i + 1
+          expression = exp.slice(0, i).trim()
+        } else {
+          pushFilter()
+        }
       } else {
         switch (c) {
-        case 0x22: inDouble = true; break         // "
-        case 0x27: inSingle = true; break         // '
-        case 0x60: inTemplateString = true; break // `
-        case 0x28: paren++; break                 // (
-        case 0x29: paren--; break                 // )
-        case 0x5B: square++; break                // [
-        case 0x5D: square--; break                // ]
-        case 0x7B: curly++; break                 // {
-        case 0x7D: curly--; break                 // }
-      }
+          case 0x22: inDouble = true; break         // "
+          case 0x27: inSingle = true; break         // '
+          case 0x60: inTemplateString = true; break // `
+          case 0x28: paren++; break                 // (
+          case 0x29: paren--; break                 // )
+          case 0x5B: square++; break                // [
+          case 0x5D: square--; break                // ]
+          case 0x7B: curly++; break                 // {
+          case 0x7D: curly--; break                 // }
+        }
         if (c === 0x2f) { // /
-        var j = i - 1
-        var p = (void 0)
+          var j = i - 1
+          var p = (void 0)
         // find first non-whitespace prev char
-        for (; j >= 0; j--) {
-          p = exp.charAt(j)
-          if (p !== ' ') { break }
+          for (; j >= 0; j--) {
+            p = exp.charAt(j)
+            if (p !== ' ') { break }
+          }
+          if (!p || !validDivisionCharRE.test(p)) {
+            inRegex = true
+          }
         }
-        if (!p || !validDivisionCharRE.test(p)) {
-          inRegex = true
-        }
-      }
       }
     }
 

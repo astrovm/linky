@@ -7,7 +7,7 @@
 
 module.exports = {
   redirectUrl: function (req, res) {
-    var urlId = req.url.slice(1)
+    const urlId = req.url.slice(1)
 
     UrlService.getUrl(urlId, function (url) {
       if (url != undefined) {
@@ -19,9 +19,9 @@ module.exports = {
           res.view('layout')
         }
         if (url.teleid && url.telealerts) {
-          var useragent = require('useragent')
-          var agent = useragent.parse(req.headers['user-agent'])
-          var teleParams = {
+          const useragent = require('useragent')
+          const agent = useragent.parse(req.headers['user-agent'])
+          const teleParams = {
             ip: req.ip,
             geo: req.headers['cf-ipcountry'],
             agent: agent.toString(),
@@ -37,7 +37,7 @@ module.exports = {
     })
   },
   createUrl: function (req, res) {
-    var urlParams = {
+    const urlParams = {
       id: req.param('id'),
       target: req.param('target'),
       emailalerts: req.param('emailalerts'),
@@ -52,7 +52,7 @@ module.exports = {
     })
   },
   sendPass: function (req, res) {
-    var urlParams = {
+    const urlParams = {
       id: req.param('id'),
       passwordAttempt: req.param('password')
     }
