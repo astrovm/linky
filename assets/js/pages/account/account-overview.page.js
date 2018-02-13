@@ -24,16 +24,16 @@ parasails.registerPage('account-overview', {
     checkoutHandler: undefined,
 
     // For the confirmation modal:
-    removeCardModalVisible: false,
+    removeCardModalVisible: false
   },
 
   //  ╦  ╦╔═╗╔═╗╔═╗╦ ╦╔═╗╦  ╔═╗
   //  ║  ║╠╣ ║╣ ║  ╚╦╝║  ║  ║╣
   //  ╩═╝╩╚  ╚═╝╚═╝ ╩ ╚═╝╩═╝╚═╝
-  beforeMount: function (){
-    _.extend(this, window.SAILS_LOCALS);
+  beforeMount: function () {
+    _.extend(this, window.SAILS_LOCALS)
 
-    this.isBillingEnabled = !!this.stripePublishableKey;
+    this.isBillingEnabled = !!this.stripePublishableKey
 
     // Determine whether there is billing info for this user.
     this.hasBillingCard = (
@@ -41,8 +41,7 @@ parasails.registerPage('account-overview', {
       this.me.billingCardLast4 &&
       this.me.billingCardExpMonth &&
       this.me.billingCardExpYear
-    );
-
+    )
   },
 
   //  ╦╔╗╔╔╦╗╔═╗╦═╗╔═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
@@ -50,70 +49,67 @@ parasails.registerPage('account-overview', {
   //  ╩╝╚╝ ╩ ╚═╝╩╚═╩ ╩╚═╝ ╩ ╩╚═╝╝╚╝╚═╝
   methods: {
 
-    clickStripeCheckoutButton: async function() {
-
+    clickStripeCheckoutButton: async function () {
       // Import utilities.
-      var openStripeCheckout = parasails.require('openStripeCheckout');
+      var openStripeCheckout = parasails.require('openStripeCheckout')
 
       // Prevent double-posting if it's still loading.
-      if(this.syncingUpdateCard) { return; }
+      if (this.syncingUpdateCard) { return }
 
       // Clear out error states.
-      this.cloudError = false;
+      this.cloudError = false
 
       // Open Stripe Checkout.
-      var billingCardInfo = await openStripeCheckout(this.stripePublishableKey, this.me.emailAddress);
+      var billingCardInfo = await openStripeCheckout(this.stripePublishableKey, this.me.emailAddress)
       if (!billingCardInfo) {
         // (if the user canceled the dialog, avast)
-        return;
+        return
       }
 
       // Now that payment info has been successfully added, update the billing
       // info for this user in our backend.
-      this.syncingUpdateCard = true;
+      this.syncingUpdateCard = true
       await Cloud.updateBillingCard.with(billingCardInfo)
-      .tolerate(()=>{
-        this.cloudError = true;
-      });
-      this.syncingUpdateCard = false;
+      .tolerate(() => {
+        this.cloudError = true
+      })
+      this.syncingUpdateCard = false
 
       // Upon success, update billing info in the UI.
       if (!this.cloudError) {
-        Object.assign(this.me, _.pick(billingCardInfo, ['billingCardLast4', 'billingCardBrand', 'billingCardExpMonth', 'billingCardExpYear']));
-        this.hasBillingCard = true;
+        Object.assign(this.me, _.pick(billingCardInfo, ['billingCardLast4', 'billingCardBrand', 'billingCardExpMonth', 'billingCardExpYear']))
+        this.hasBillingCard = true
       }
     },
 
-    clickRemoveCardButton: function() {
-      this.removeCardModalVisible = true;
+    clickRemoveCardButton: function () {
+      this.removeCardModalVisible = true
     },
 
-    closeRemoveCardModal: function() {
-      this.removeCardModalVisible = false;
-      this.cloudError = false;
+    closeRemoveCardModal: function () {
+      this.removeCardModalVisible = false
+      this.cloudError = false
     },
 
-    submittedRemoveCardForm: function() {
-
+    submittedRemoveCardForm: function () {
       // Update billing info on success.
-      this.me.billingCardLast4 = undefined;
-      this.me.billingCardBrand = undefined;
-      this.me.billingCardExpMonth = undefined;
-      this.me.billingCardExpYear = undefined;
-      this.hasBillingCard = false;
+      this.me.billingCardLast4 = undefined
+      this.me.billingCardBrand = undefined
+      this.me.billingCardExpMonth = undefined
+      this.me.billingCardExpYear = undefined
+      this.hasBillingCard = false
 
       // Close the modal and clear it out.
-      this.closeRemoveCardModal();
-
+      this.closeRemoveCardModal()
     },
 
-    handleParsingRemoveCardForm: function() {
+    handleParsingRemoveCardForm: function () {
       return {
         // Set to empty string to indicate the default payment source
         // for this customer is being completely removed.
         stripeToken: ''
-      };
-    },
+      }
+    }
 
   }
-});
+})

@@ -7,20 +7,20 @@
 
 module.exports = {
   redirectUrl: function (req, res) {
-    var urlId = req.url.slice(1);
+    var urlId = req.url.slice(1)
 
-    UrlService.getUrl(urlId, function(url) {
+    UrlService.getUrl(urlId, function (url) {
       if (url != undefined) {
-        res.set('Cache-Control', 'public, max-age=5');
+        res.set('Cache-Control', 'public, max-age=5')
         // Check if the URL has password and request it in that case
         if (url.password == null) {
-          res.redirect(url.target);
+          res.redirect(url.target)
         } else {
-          res.view('layout');
+          res.view('layout')
         }
         if (url.teleid && url.telealerts) {
-          var useragent = require('useragent');
-          var agent = useragent.parse(req.headers['user-agent']);
+          var useragent = require('useragent')
+          var agent = useragent.parse(req.headers['user-agent'])
           var teleParams = {
             ip: req.ip,
             geo: req.headers['cf-ipcountry'],
@@ -29,12 +29,12 @@ module.exports = {
             urlAlias: url.id,
             target: url.target
           }
-          UrlService.teleAlert(teleParams);
+          UrlService.teleAlert(teleParams)
         }
       } else {
-        return res.json("This alias doesn't exist.");
+        return res.json("This alias doesn't exist.")
       }
-    });
+    })
   },
   createUrl: function (req, res) {
     var urlParams = {
@@ -47,9 +47,9 @@ module.exports = {
       email: req.param('email')
     }
 
-    UrlService.createUrl(urlParams, function(url) {
-      return res.json(url);
-    });
+    UrlService.createUrl(urlParams, function (url) {
+      return res.json(url)
+    })
   },
   sendPass: function (req, res) {
     var urlParams = {
@@ -57,8 +57,8 @@ module.exports = {
       passwordAttempt: req.param('password')
     }
 
-    UrlService.sendPass(urlParams, function(url) {
-      return res.json(url);
-    });
+    UrlService.sendPass(urlParams, function (url) {
+      return res.json(url)
+    })
   }
-};
+}

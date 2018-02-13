@@ -31,14 +31,14 @@
  * ```
  * ---------------------------------------------------------------------------------------------
  */
-(function(global, factory){
-  var _;
-  var io;
-  var $;
-  var SAILS_LOCALS;
-  var location;
-  var File;
-  var FormData;
+(function (global, factory) {
+  var _
+  var io
+  var $
+  var SAILS_LOCALS
+  var location
+  var File
+  var FormData
 
   // First, handle optional deps that are gleaned from the global state:
   // > Note: Instead of throwing, we ignore invalid globals.
@@ -47,52 +47,51 @@
   // =====================================================================
   if (global.location !== undefined) {
     if (global.location && typeof global.location === 'object' && (global.location.constructor.name === 'Location' || global.location.constructor.toString() === '[object Location]')) {
-      location = global.location;
+      location = global.location
     }
-  }//ﬁ
+  }// ﬁ
   if (global.File !== undefined) {
     if (global.File && typeof global.File === 'function' && global.File.name === 'File') {
-      File = global.File;
+      File = global.File
     }
-  }//ﬁ
+  }// ﬁ
   if (global.FormData !== undefined) {
     if (global.FormData && typeof global.FormData === 'function' && global.FormData.name === 'FormData') {
-      FormData = global.FormData;
+      FormData = global.FormData
     }
-  }//ﬁ
+  }// ﬁ
 
   // Then, load the rest of the deps:
   // =====================================================================
 
-  //˙°˚°·.
-  //‡CJS  ˚°˚°·˛
+  // ˙°˚°·.
+  // ‡CJS  ˚°˚°·˛
   if (typeof exports === 'object' && typeof module !== 'undefined') {
-    var _require = require;// eslint-disable-line no-undef
-    var _module = module;// eslint-disable-line no-undef
+    var _require = require// eslint-disable-line no-undef
+    var _module = module// eslint-disable-line no-undef
     // required deps:
     if (typeof _ === 'undefined') {
       try {
-        _ = _require('@sailshq/lodash');
-      } catch (e) { if (e.code === 'MODULE_NOT_FOUND') {/* ok */} else { throw e; } }
-    }//ﬁ
+        _ = _require('@sailshq/lodash')
+      } catch (e) { if (e.code === 'MODULE_NOT_FOUND') { /* ok */ } else { throw e } }
+    }// ﬁ
     if (typeof _ === 'undefined') {
       try {
-        _ = _require('lodash');
-      } catch (e) { if (e.code === 'MODULE_NOT_FOUND') {/* ok */} else { throw e; } }
-    }//ﬁ
+        _ = _require('lodash')
+      } catch (e) { if (e.code === 'MODULE_NOT_FOUND') { /* ok */ } else { throw e } }
+    }// ﬁ
 
     // optional deps:
-    try { $ = _require('jquery'); } catch (e) { if (e.code === 'MODULE_NOT_FOUND') {/* ok */} else { throw e; } }
+    try { $ = _require('jquery') } catch (e) { if (e.code === 'MODULE_NOT_FOUND') { /* ok */ } else { throw e } }
     try {
-
-      io = _require('socket.io-client');
-      var sailsIO = _require('sails.io.js');
+      io = _require('socket.io-client')
+      var sailsIO = _require('sails.io.js')
 
       // Instantiate the library (and start auto-connecting)
-      io = sailsIO(io);
+      io = sailsIO(io)
 
       // Disable logging
-      io.sails.environment = 'production';
+      io.sails.environment = 'production'
 
       // Note that, if there is no location global, then after one tick,
       // if `io.sails.url` has still not been set, weird errors will emerge.
@@ -105,103 +104,84 @@
         // that's ok-- just make sure and unwind any vars that might have
         // gotten partially set up, since we attempted to require more than
         // one thing above (and e.g. the second `require()` might have failed)
-        io = undefined;
+        io = undefined
       } else {
-        throw err;
+        throw err
       }
     }
 
-    SAILS_LOCALS = undefined;
+    SAILS_LOCALS = undefined
 
     // export:
-    _module.exports = factory(_, io, $, SAILS_LOCALS, location, File, FormData);
+    _module.exports = factory(_, io, $, SAILS_LOCALS, location, File, FormData)
   }
-  //˙°˚°·
-  //‡AMD ˚¸
-  else if(typeof define === 'function' && define.amd) {// eslint-disable-line no-undef
-    throw new Error('Global `define()` function detected, but built-in AMD support in `cloud.js` is not currently recommended.  To resolve this, modify `cloud.js`.');
+  // ˙°˚°·
+  // ‡AMD ˚¸
+  else if (typeof define === 'function' && define.amd) { // eslint-disable-line no-undef
+    throw new Error('Global `define()` function detected, but built-in AMD support in `cloud.js` is not currently recommended.  To resolve this, modify `cloud.js`.')
     // var _define = define;// eslint-disable-line no-undef
     // _define(['_', 'sails.io.js', '$', 'SAILS_LOCALS', 'location', 'file'], factory);
   }
-  //˙°˚˙°·
-  //‡NUDE ˚°·˛
+  // ˙°˚˙°·
+  // ‡NUDE ˚°·˛
   else {
     // required deps:
-    if (!global._) { throw new Error('`_` global does not exist on the page yet. (If you\'re using Sails, please check dependency loading order in pipeline.js and make sure the Lodash library is getting brought in before `cloud`.)'); }
-    _ = global._;
+    if (!global._) { throw new Error('`_` global does not exist on the page yet. (If you\'re using Sails, please check dependency loading order in pipeline.js and make sure the Lodash library is getting brought in before `cloud`.)') }
+    _ = global._
     // optional deps:
     if (global.io !== undefined) {
       if (typeof global.io !== 'function') {
-        throw new Error('Could not access `io.socket`: The `io` global is invalid at the moment:' + global.io + '\n(If you\'re using Sails, please check dependency loading order in pipeline.js and make sure the sails.io.js library is getting brought in before `cloud`.)');
+        throw new Error('Could not access `io.socket`: The `io` global is invalid at the moment:' + global.io + '\n(If you\'re using Sails, please check dependency loading order in pipeline.js and make sure the sails.io.js library is getting brought in before `cloud`.)')
+      } else if (typeof global.io.socket === 'undefined') {
+        throw new Error('Could not access `io.socket`: `io` does not have a `socket` property.  Make sure `sails.io.js` is being injected in a <script> tag!')
+      } else {
+        io = global.io
       }
-      else if (typeof global.io.socket === 'undefined') {
-        throw new Error('Could not access `io.socket`: `io` does not have a `socket` property.  Make sure `sails.io.js` is being injected in a <script> tag!');
-      }
-      else {
-        io = global.io;
-      }
-    }//ﬁ
+    }// ﬁ
     if (global.$ !== undefined) {
       if (typeof global.$ !== 'function') {
-        throw new Error('The `$` global is not valid at the moment:' + global.$ + '\n(If you\'re using Sails, please check dependency loading order in pipeline.js and make sure the jQuery library is getting brought in before `cloud`.)');
+        throw new Error('The `$` global is not valid at the moment:' + global.$ + '\n(If you\'re using Sails, please check dependency loading order in pipeline.js and make sure the jQuery library is getting brought in before `cloud`.)')
+      } else {
+        $ = global.$
       }
-      else {
-        $ = global.$;
-      }
-    }//ﬁ
+    }// ﬁ
     if (global.SAILS_LOCALS !== undefined) {
       if (!_.isObject(global.SAILS_LOCALS)) {
-        throw new Error('The `SAILS_LOCALS` global is not valid at the moment:' + global.SAILS_LOCALS + '\n(Please check and make sure you are using `<%- exposeLocalsToBrowser() %>` in your server-side view *before* the rest of your scripts.)');
+        throw new Error('The `SAILS_LOCALS` global is not valid at the moment:' + global.SAILS_LOCALS + '\n(Please check and make sure you are using `<%- exposeLocalsToBrowser() %>` in your server-side view *before* the rest of your scripts.)')
+      } else {
+        SAILS_LOCALS = global.SAILS_LOCALS
       }
-      else {
-        SAILS_LOCALS = global.SAILS_LOCALS;
-      }
-    }//ﬁ
+    }// ﬁ
 
     // export:
-    if (global.Cloud) { throw new Error('Cannot expose global variable: Conflicting global (`cloud`) already exists!'); }
-    global.Cloud = factory(_, io, $, SAILS_LOCALS, location, File, FormData);
+    if (global.Cloud) { throw new Error('Cannot expose global variable: Conflicting global (`cloud`) already exists!') }
+    global.Cloud = factory(_, io, $, SAILS_LOCALS, location, File, FormData)
   }
-})(this, function (_, io, $, SAILS_LOCALS, location, File, FormData){
-
-
-
+})(this, function (_, io, $, SAILS_LOCALS, location, File, FormData) {
   /**
    * @param  {String} negotiationRule
    *
    * @throws {Error} If rule is invalid or absent
    */
-  function _verifyErrorNegotiationRule(negotiationRule) {
-
+  function _verifyErrorNegotiationRule (negotiationRule) {
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // FUTURE: add support for parley/flaverr/bluebird/lodash-style dictionary negotiation rules
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     if (_.isNumber(negotiationRule) && Math.floor(negotiationRule) === negotiationRule) {
       if (negotiationRule > 599 || negotiationRule < 0) {
-        throw new Error('Invalid error negotiation rule: `'+negotiationRule+'`.  If a status code is provided, it must be between zero and 599.');
+        throw new Error('Invalid error negotiation rule: `' + negotiationRule + '`.  If a status code is provided, it must be between zero and 599.')
       }
-    }
-    else if (_.isString(negotiationRule) && negotiationRule) {
+    } else if (_.isString(negotiationRule) && negotiationRule) {
       // Ok, we'll assume it's fine
-    }
-    else {
-      var suffix = '';
+    } else {
+      var suffix = ''
       if (negotiationRule === undefined || _.isFunction(negotiationRule)) {
-        suffix = '  Looking to tolerate or intercept **EVERY** error?  This usually isn\'t a good idea, because, just like some try/catch usage patterns, it could mean swallowing errors unexpectedly, which can make debugging a nightmare.';
+        suffix = '  Looking to tolerate or intercept **EVERY** error?  This usually isn\'t a good idea, because, just like some try/catch usage patterns, it could mean swallowing errors unexpectedly, which can make debugging a nightmare.'
       }
-      throw new Error('Invalid error negotiation rule: `'+negotiationRule+'`.  Please pass in a valid intercept rule string.  An intercept rule is either (A) the name of an exit or (B) a whole number representing the status code like `404` or `200`.'+suffix);
+      throw new Error('Invalid error negotiation rule: `' + negotiationRule + '`.  Please pass in a valid intercept rule string.  An intercept rule is either (A) the name of an exit or (B) a whole number representing the status code like `404` or `200`.' + suffix)
     }
-
   }
-
-
-
-
-
-
-
-
 
   /**
    * Cloud (SDK)
@@ -307,8 +287,7 @@
    *
    */
 
-  var Cloud = {};
-
+  var Cloud = {}
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // FUTURE: finish this when time allows   (would be better to have it work by attaching dedicated
@@ -317,7 +296,6 @@
   // // A mapping of names of view actions to URL
   // // > provided to `.setup()`, for use in .navigate()
   // var _navigableUrlsByViewActionName;
-
 
   // /**
   //  * Cloud.navigate()
@@ -345,7 +323,6 @@
   // ```
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-
   /**
    * Cloud.setup()
    *
@@ -357,31 +334,29 @@
    *         @optional {Dictionary} links
    *         @optional {Dictionary} apiBaseUrl
    */
-  Cloud.setup = function(options) {
-
-    options = options || {};
+  Cloud.setup = function (options) {
+    options = options || {}
 
     if (!_.isObject(options.methods) || _.isArray(options.methods) || _.isFunction(options.methods)) {
-      throw new Error('Cannot .setup() Cloud SDK: `methods` must be provided as a dictionary of addresses and definitions.');
-    }//•
+      throw new Error('Cannot .setup() Cloud SDK: `methods` must be provided as a dictionary of addresses and definitions.')
+    }// •
 
     // Determine the proper API base URL
     if (!options.apiBaseUrl) {
       if (location) {
-        options.apiBaseUrl = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');
+        options.apiBaseUrl = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '')
+      } else {
+        throw new Error('Cannot .setup() Cloud SDK: Since a location cannot be determined, `apiBaseUrl` must be provided as a string (e.g. "https://example.com").')
       }
-      else {
-        throw new Error('Cannot .setup() Cloud SDK: Since a location cannot be determined, `apiBaseUrl` must be provided as a string (e.g. "https://example.com").');
-      }
-    }//ﬁ
+    }// ﬁ
 
     // Apply the base URL for the benefit of WebSockets (if relevant):
     if (io) {
-      io.sails.url = options.apiBaseUrl;
-    }//ﬁ
+      io.sails.url = options.apiBaseUrl
+    }// ﬁ
 
     // The name of the default protocol.
-    var DEFAULT_PROTOCOL_NAME = 'jQuery';
+    var DEFAULT_PROTOCOL_NAME = 'jQuery'
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // FUTURE: finish this when time allows   (would be better to have it work by attaching dedicated
@@ -393,10 +368,9 @@
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     // Interpret methods
-    var methods = _.reduce(options.methods, function(memo, appLevelSdkEndpointDef, methodName) {
-
+    var methods = _.reduce(options.methods, function (memo, appLevelSdkEndpointDef, methodName) {
       if (methodName === 'setup') {
-        console.warn('"setup" is a confusing name for a cloud action (it conflicts with a built-in feature of this SDK itself).  Would "initialize()" work instead?  (Continuing this time...)');
+        console.warn('"setup" is a confusing name for a cloud action (it conflicts with a built-in feature of this SDK itself).  Would "initialize()" work instead?  (Continuing this time...)')
       }
 
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -410,48 +384,43 @@
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
       // Validate the endpoint definition.
-      ////////////////////////////////////////////////////////////////////////////////////////////////
-      var _verbToCheck;
-      var _urlToCheck;
+      /// /////////////////////////////////////////////////////////////////////////////////////////////
+      var _verbToCheck
+      var _urlToCheck
       if (typeof appLevelSdkEndpointDef === 'function') {
         // We can't really check functions, so we just let it through.
-      }
-      else {
+      } else {
         if (appLevelSdkEndpointDef && typeof appLevelSdkEndpointDef === 'object') {
           // Must have `verb` and `url` properties.
-          _verbToCheck = appLevelSdkEndpointDef.verb;
-          _urlToCheck = appLevelSdkEndpointDef.url;
-        }
-        else if (typeof appLevelSdkEndpointDef === 'string') {
+          _verbToCheck = appLevelSdkEndpointDef.verb
+          _urlToCheck = appLevelSdkEndpointDef.url
+        } else if (typeof appLevelSdkEndpointDef === 'string') {
           // Must be able to parse `verb` and `url`.
-          _verbToCheck = appLevelSdkEndpointDef.replace(/^\s*([^\/\s]+)\s*\/.*$/, '$1');
-          _urlToCheck = appLevelSdkEndpointDef.replace(/^\s*[^\/\s]+\s*\/(.*)$/, '/$1');
-        }
-        else {
-          throw new Error('CloudSDK endpoint (`'+methodName+'`) is invalid:  Endpoints should be defined as either (1) a string like "GET /foo", (2) a dictionary containing a `verb` and a `url`, or (3) a function that returns a dictionary like that.');
+          _verbToCheck = appLevelSdkEndpointDef.replace(/^\s*([^\/\s]+)\s*\/.*$/, '$1')
+          _urlToCheck = appLevelSdkEndpointDef.replace(/^\s*[^\/\s]+\s*\/(.*)$/, '/$1')
+        } else {
+          throw new Error('CloudSDK endpoint (`' + methodName + '`) is invalid:  Endpoints should be defined as either (1) a string like "GET /foo", (2) a dictionary containing a `verb` and a `url`, or (3) a function that returns a dictionary like that.')
         }
 
         // --•
 
         // `verb` must be valid.
         if (typeof _verbToCheck !== 'string' || _verbToCheck === '') {
-          throw new Error('CloudSDK endpoint (`'+methodName+'`) is invalid:  An endpoint\'s `verb` should be defined as a non-empty string.');
+          throw new Error('CloudSDK endpoint (`' + methodName + '`) is invalid:  An endpoint\'s `verb` should be defined as a non-empty string.')
         }
 
         // `url` must be valid.
         if (typeof _urlToCheck !== 'string' || _urlToCheck === '') {
-          throw new Error('CloudSDK endpoint (`'+methodName+'`) is invalid:  An endpoint\'s `url` should be defined as a non-empty string.');
+          throw new Error('CloudSDK endpoint (`' + methodName + '`) is invalid:  An endpoint\'s `url` should be defined as a non-empty string.')
         }
       }
 
-
       // Build the actual method that will be called at runtime:
-      ////////////////////////////////////////////////////////////////////////
+      /// /////////////////////////////////////////////////////////////////////
       var _helpCallCloudMethod = function (argins) {
-
-        //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
+        // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
         // There are 3 ways to define an SDK wrapper for a cloud endpoint.
-        //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
+        // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
         var requestInfo = {
           // • the HTTP verb (aka HTTP "method" -- we're just using "verb" for clarity)
           verb: undefined,
@@ -468,10 +437,8 @@
           // • the protocol instance (e.g. actual reference to `$` or `io.socket`)
           protocolInstance: undefined,
           // • an array of conditional lifecycle instructions from userland .intercept() / .tolerate() calls, if any are configured
-          lifecycleInstructions: [],
-        };
-
-
+          lifecycleInstructions: []
+        }
 
         //  ██████╗ ██╗   ██╗██╗██╗     ██████╗     ██████╗ ███████╗███████╗███████╗██████╗ ██████╗ ███████╗██████╗
         //  ██╔══██╗██║   ██║██║██║     ██╔══██╗    ██╔══██╗██╔════╝██╔════╝██╔════╝██╔══██╗██╔══██╗██╔════╝██╔══██╗
@@ -490,7 +457,7 @@
 
         // Used for avoiding accidentally creating multiple promises when
         // using .then() or .catch().
-        var _promise;
+        var _promise
 
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         // FUTURE: add support for omens so we get better stack traces, particularly
@@ -501,88 +468,77 @@
         var deferred = {
 
           // Allow request headers to be configured.
-          /////////////////////////////////////////////////////////////////////////////
-          headers: function (_customRequestHeaders){
+          /// //////////////////////////////////////////////////////////////////////////
+          headers: function (_customRequestHeaders) {
             if (!_.isObject(_customRequestHeaders)) {
-              throw new Error('Invalid request headers: Must be specified as a dictionary, where each key has a string value.');
+              throw new Error('Invalid request headers: Must be specified as a dictionary, where each key has a string value.')
             }
-            requestInfo.headers = _.extend(requestInfo.headers||{}, _customRequestHeaders);
+            requestInfo.headers = _.extend(requestInfo.headers || {}, _customRequestHeaders)
 
-            return deferred;
+            return deferred
           },
 
           // Allow the protocol to be configured on a per-request basis.
-          /////////////////////////////////////////////////////////////////////////////
-          protocol: function (_protocolNameOrInstance){
+          /// //////////////////////////////////////////////////////////////////////////
+          protocol: function (_protocolNameOrInstance) {
             if (typeof _protocolNameOrInstance === 'string') {
               switch (_protocolNameOrInstance) {
                 case 'jQuery':
-                  requestInfo.protocolName = 'jQuery';
+                  requestInfo.protocolName = 'jQuery'
                   if ($ === undefined) {
-                    throw new Error('Could not access jQuery: `$` is undefined.');
+                    throw new Error('Could not access jQuery: `$` is undefined.')
+                  } else {
+                    requestInfo.protocolInstance = $
                   }
-                  else {
-                    requestInfo.protocolInstance = $;
-                  }
-                  break;
+                  break
 
                 case 'io.socket':
-                  requestInfo.protocolName = 'io.socket';
+                  requestInfo.protocolName = 'io.socket'
                   if (typeof io === 'undefined') {
-                    throw new Error('Could not access `io.socket`: `io` is undefined.');
+                    throw new Error('Could not access `io.socket`: `io` is undefined.')
+                  } else if (typeof io !== 'function') {
+                    throw new Error('Could not access `io.socket`: `io` is invalid:' + io)
+                  } else if (typeof io.socket === 'undefined') {
+                    throw new Error('Could not access `io.socket`: `io` does not have a `socket` property.  Make sure `sails.io.js` is being injected in a <script> tag!')
+                  } else {
+                    requestInfo.protocolInstance = io.socket
                   }
-                  else if (typeof io !== 'function') {
-                    throw new Error('Could not access `io.socket`: `io` is invalid:' + io);
-                  }
-                  else if (typeof io.socket === 'undefined') {
-                    throw new Error('Could not access `io.socket`: `io` does not have a `socket` property.  Make sure `sails.io.js` is being injected in a <script> tag!');
-                  }
-                  else {
-                    requestInfo.protocolInstance = io.socket;
-                  }
-                  break;
+                  break
 
                 default:
-                  throw new Error('Unrecognized protocol: `'+_protocolNameOrInstance+'`. Use "jQuery" or "io.socket".');
+                  throw new Error('Unrecognized protocol: `' + _protocolNameOrInstance + '`. Use "jQuery" or "io.socket".')
               }
-            }
-            else if (_.isObject(_protocolNameOrInstance) || _.isFunction(_protocolNameOrInstance)) {
+            } else if (_.isObject(_protocolNameOrInstance) || _.isFunction(_protocolNameOrInstance)) {
               if (_protocolNameOrInstance.name === 'jQuery') {
-                requestInfo.protocolName = 'jQuery';
-                requestInfo.protocolInstance = _protocolNameOrInstance;
-              }
-              else if (_protocolNameOrInstance.constructor.name === 'SailsSocket') {
-                requestInfo.protocolName = 'io.socket';
-                requestInfo.protocolInstance = _protocolNameOrInstance;
-              }
-              else if (_protocolNameOrInstance.toString() === '[Package: machinepack-http]' || _protocolNameOrInstance.toString() === '[Package: sails.helpers.http]') {
-                requestInfo.protocolName = 'machinepack-http';
-                requestInfo.protocolInstance = _protocolNameOrInstance;
+                requestInfo.protocolName = 'jQuery'
+                requestInfo.protocolInstance = _protocolNameOrInstance
+              } else if (_protocolNameOrInstance.constructor.name === 'SailsSocket') {
+                requestInfo.protocolName = 'io.socket'
+                requestInfo.protocolInstance = _protocolNameOrInstance
+              } else if (_protocolNameOrInstance.toString() === '[Package: machinepack-http]' || _protocolNameOrInstance.toString() === '[Package: sails.helpers.http]') {
+                requestInfo.protocolName = 'machinepack-http'
+                requestInfo.protocolInstance = _protocolNameOrInstance
               }
               // FUTURE: maybe native browser "fetch"?
               // FUTURE: maybe native Node "http"?
               else {
-                throw new Error('Unrecognized instance provided to `.protocol()`: `'+_protocolNameOrInstance+'`');
+                throw new Error('Unrecognized instance provided to `.protocol()`: `' + _protocolNameOrInstance + '`')
               }
+            } else {
+              throw new Error('Unrecognized protocol: `' + _protocolNameOrInstance + '`. Use "jQuery" or "io.socket".')
             }
-            else {
-              throw new Error('Unrecognized protocol: `'+_protocolNameOrInstance+'`. Use "jQuery" or "io.socket".');
-            }
 
-            return deferred;
-
-          },//</ implementation of `.protocol()`>
-
+            return deferred
+          }, // </ implementation of `.protocol()`>
 
           // Allow intercepting the response before resolution/rejection occurs.
           // (This is basically an "after receiving response" lifecycle callback.)
-          /////////////////////////////////////////////////////////////////////////////
+          /// //////////////////////////////////////////////////////////////////////////
           intercept: function (negotiationRule, handler) {
-
-            _verifyErrorNegotiationRule(negotiationRule);
+            _verifyErrorNegotiationRule(negotiationRule)
 
             if (!_.isFunction(handler)) {
-              throw new Error('Invalid 2nd argument to `.intercept()`.  Expecting a handler function.');
+              throw new Error('Invalid 2nd argument to `.intercept()`.  Expecting a handler function.')
             }
 
             // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -594,33 +550,30 @@
               type: 'intercept',
               rule: negotiationRule,
               handler: handler
-            });
+            })
 
-            return deferred;
-
+            return deferred
           },
 
           // Allow explicitly tolerating certain kinds of responses before resolution/rejection occurs.
           // (This causes control flow convergence by using `.intercept()` + throwing a special value)
-          /////////////////////////////////////////////////////////////////////////////
+          /// //////////////////////////////////////////////////////////////////////////
           tolerate: function (_negotiationRuleMaybe, _handlerMaybe) {
-
-            var handler;
-            var negotiationRule;
+            var handler
+            var negotiationRule
             if (_handlerMaybe === undefined && _.isFunction(_negotiationRuleMaybe)) {
-              handler = _negotiationRuleMaybe;
-            }
-            else {
-              negotiationRule = _negotiationRuleMaybe;
-              handler = _handlerMaybe;
+              handler = _negotiationRuleMaybe
+            } else {
+              negotiationRule = _negotiationRuleMaybe
+              handler = _handlerMaybe
             }
 
             if (negotiationRule !== undefined) {
-              _verifyErrorNegotiationRule(negotiationRule);
+              _verifyErrorNegotiationRule(negotiationRule)
             }
 
             if (handler !== undefined && !_.isFunction(handler)) {
-              throw new Error('Invalid 2nd argument. to `.tolerate()`.  Expecting a handler function.');
+              throw new Error('Invalid 2nd argument. to `.tolerate()`.  Expecting a handler function.')
             }
 
             // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -631,14 +584,10 @@
             requestInfo.lifecycleInstructions.push({
               type: 'tolerate',
               rule: negotiationRule,
-              handler: handler?
-                handler
-                :
-                function(){ return; }
-            });
+              handler: handler || function () { }
+            })
 
-            return deferred;
-
+            return deferred
           },
 
           // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -656,89 +605,84 @@
           // > (Also check out the commit history of the original `caviar` repo.)
           // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-          then: function (){
+          then: function () {
             // console.log('in implementation of `then()`...');
-            var promise = deferred.toPromise();
+            var promise = deferred.toPromise()
             // console.log('obj:',promise);
-            return promise.then.apply(promise, arguments);
+            return promise.then.apply(promise, arguments)
           },
 
           // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
           // FUTURE: use parley for all this instead, if we can find a way to keep it
           // from being too enormous when browserified
           // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-          toPromise: function (){
-            if (typeof Promise === 'undefined') { throw new Error('Cannot use this approach: `Promise` constructor not available in current environment.'); }
+          toPromise: function () {
+            if (typeof Promise === 'undefined') { throw new Error('Cannot use this approach: `Promise` constructor not available in current environment.') }
 
             if (_promise) {
               // console.log('using catched promise...');
-              return _promise;
+              return _promise
             }
             // console.log('instantiating new promise!');
 
-            _promise = new Promise(function(resolve, reject){// eslint-disable-line no-undef
+            _promise = new Promise(function (resolve, reject) { // eslint-disable-line no-undef
               try {
-                deferred.exec(function(err, resultMaybe) {
-                  if (err){
+                deferred.exec(function (err, resultMaybe) {
+                  if (err) {
                     // console.log('calling reject..');
-                    return reject(err);
+                    return reject(err)
                   }
                   // console.log('calling resolve..');
-                  return resolve(resultMaybe);
-                });//_∏_
+                  return resolve(resultMaybe)
+                })// _∏_
               } catch (err) {
                 // console.log('EXEC THREW ERROR!',err);
                 // console.log('CALLED REJECT IN NATIVE CATCH BLOCK!');
-                reject(err);
+                reject(err)
               }
-            });//_∏_
+            })// _∏_
 
-            return _promise;
+            return _promise
           },
 
-
           // Allow the AJAX request to actually be sent.
-          /////////////////////////////////////////////////////////////////////////////
-          exec: function (exitCallbacks){
-
+          /// //////////////////////////////////////////////////////////////////////////
+          exec: function (exitCallbacks) {
             if (exitCallbacks) {
               if (!_.isObject(exitCallbacks) && !_.isFunction(exitCallbacks)) {
-                throw new Error('If specified, the argument passed to `.exec()` must be a dictionary containing a `success` and `error` callback.  Alternatively, you can use a Node.js-style callback.');
-              }
-              else if (_.isObject(exitCallbacks) && exitCallbacks.success && !_.isFunction(exitCallbacks.success)) {
-                throw new Error('If specified, `success` callback must be a function.');
-              }
-              else if (_.isObject(exitCallbacks) && exitCallbacks.error && !_.isFunction(exitCallbacks.error)) {
-                throw new Error('If specified, `error` callback must be a function.');
+                throw new Error('If specified, the argument passed to `.exec()` must be a dictionary containing a `success` and `error` callback.  Alternatively, you can use a Node.js-style callback.')
+              } else if (_.isObject(exitCallbacks) && exitCallbacks.success && !_.isFunction(exitCallbacks.success)) {
+                throw new Error('If specified, `success` callback must be a function.')
+              } else if (_.isObject(exitCallbacks) && exitCallbacks.error && !_.isFunction(exitCallbacks.error)) {
+                throw new Error('If specified, `error` callback must be a function.')
               }
             }
 
             // Just in case, build an error instance beforehand.
             // (This ensures it has a good stack trace.)
-            var errorInstance = new Error('Endpoint (`'+methodName+'`) responded with an error (or the request failed).');
+            var errorInstance = new Error('Endpoint (`' + methodName + '`) responded with an error (or the request failed).')
 
             // Give the error a special `name` property to ease negotiation
             // (vs. other unrelated things like typos in argins)
-            errorInstance.name = 'CloudError';
+            errorInstance.name = 'CloudError'
 
             // If present, use CSRF token from `SAILS_LOCALS` as the `x-csrf-token`
             // request header for all non-GET requests.
             // (Unless of course there's another x-csrf-token header already specified.)
             if (_.isObject(SAILS_LOCALS) && typeof SAILS_LOCALS._csrf !== 'undefined') {
               if (_.isUndefined(requestInfo.headers)) {
-                requestInfo.headers = {};
+                requestInfo.headers = {}
               }// >-
               if (!requestInfo.headers['x-csrf-token']) {
-                requestInfo.headers['x-csrf-token'] = SAILS_LOCALS._csrf;
+                requestInfo.headers['x-csrf-token'] = SAILS_LOCALS._csrf
               }
-            }//ﬁ
+            }// ﬁ
 
             // Finally, use the appropriate protocol to actually send the request and
             // send back the response to the code that called this `Cloud.*()` method.
-            (function _makeAjaxCallWithAppropriateProtocol(proceed){
-
+            (function _makeAjaxCallWithAppropriateProtocol (proceed) {
               // First, tease apart text params and file params.
-              var textParamsByFieldName = requestInfo.params;
+              var textParamsByFieldName = requestInfo.params
 
               // Check for file uploads.
               //
@@ -748,57 +692,55 @@
               // params dictionary, and set them up separately.
               // (The files will be attached to the request _after_
               // the text parameters.)
-              var filesByFieldName = {};
+              var filesByFieldName = {}
               if (File && FormData && textParamsByFieldName) {
-                textParamsByFieldName = _.extend({}, textParamsByFieldName);
-                _.each(textParamsByFieldName, function(value, fieldName){
+                textParamsByFieldName = _.extend({}, textParamsByFieldName)
+                _.each(textParamsByFieldName, function (value, fieldName) {
                   if (_.isObject(value) && value instanceof File) {
-                    filesByFieldName[fieldName] = value;
-                    delete textParamsByFieldName[fieldName];
+                    filesByFieldName[fieldName] = value
+                    delete textParamsByFieldName[fieldName]
                   }
-                });
-              }//ﬁ
+                })
+              }// ﬁ
 
               // Don't allow file uploads for GET requests,
               // or if the FormData constructor is somehow missing.
               if (_.keys(filesByFieldName).length > 0) {
                 if (requestInfo.verb.match(/get/i)) {
                   throw new Error(
-                    'Detected File instance(s) provided for parameter(s):  '+
-                    _.keys(filesByFieldName)+'\n'+
-                    'But this is a nullipotent ('+requestInfo.verb.toUpperCase()+') '+
+                    'Detected File instance(s) provided for parameter(s):  ' +
+                    _.keys(filesByFieldName) + '\n' +
+                    'But this is a nullipotent (' + requestInfo.verb.toUpperCase() + ') ' +
                     'request, which does not support file uploads.'
-                  );
-                }//•
+                  )
+                }// •
                 if (!FormData) {
                   throw new Error(
-                    'Detected File instance(s) provided for parameter(s):  '+
-                    _.keys(filesByFieldName)+'\n'+
+                    'Detected File instance(s) provided for parameter(s):  ' +
+                    _.keys(filesByFieldName) + '\n' +
                     'But the native FormData constructor does not exist!'
-                  );
+                  )
                 }
-              }//ﬁ
+              }// ﬁ
 
               switch (requestInfo.protocolName) {
-
                 //  ▄▄███▄▄·    █████╗      ██╗ █████╗ ██╗  ██╗ ██╗██╗
                 //  ██╔════╝   ██╔══██╗     ██║██╔══██╗╚██╗██╔╝██╔╝╚██╗
                 //  ███████╗   ███████║     ██║███████║ ╚███╔╝ ██║  ██║
                 //  ╚════██║   ██╔══██║██   ██║██╔══██║ ██╔██╗ ██║  ██║
                 //  ███████║██╗██║  ██║╚█████╔╝██║  ██║██╔╝ ██╗╚██╗██╔╝
                 //  ╚═▀▀▀══╝╚═╝╚═╝  ╚═╝ ╚════╝ ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═╝╚═╝
-                case 'jQuery': return (function _doAjaxWithJQuery(){
-
-                  var thisJQuery = requestInfo.protocolInstance;
+                case 'jQuery': return (function _doAjaxWithJQuery () {
+                  var thisJQuery = requestInfo.protocolInstance
 
                   // Build options for $.ajax().
                   var ajaxOpts = {
                     url: requestInfo.url,
                     method: requestInfo.verb
-                  };
+                  }
                   // If GET request, encode params in querystring.
                   if (requestInfo.verb.match(/get/i)) {
-                    ajaxOpts.data = textParamsByFieldName;
+                    ajaxOpts.data = textParamsByFieldName
                   }
                   // Else if there are files, attach them properly,
                   // alongside the other stuff in the form.
@@ -806,34 +748,34 @@
                   // > in order to support order-aware body parsers
                   // > that rely on pessimistic upstream awareness
                   // > optimize uploads and prevent DDoS attacks.
-                  else if (_.keys(filesByFieldName).length > 0){
-                    ajaxOpts.processData = false;
-                    ajaxOpts.contentType = false;
-                    ajaxOpts.data = new FormData();
-                    _.each(textParamsByFieldName, function(value, fieldName){
+                  else if (_.keys(filesByFieldName).length > 0) {
+                    ajaxOpts.processData = false
+                    ajaxOpts.contentType = false
+                    ajaxOpts.data = new FormData()
+                    _.each(textParamsByFieldName, function (value, fieldName) {
                       // Skip `undefined` values to more accurately mirror
                       // the behavior of JSON.stringify()
-                      if (value === undefined) { return; }
-                      ajaxOpts.data.append(fieldName, value);
-                    });
-                    _.each(filesByFieldName, function(file, fieldName){
+                      if (value === undefined) { return }
+                      ajaxOpts.data.append(fieldName, value)
+                    })
+                    _.each(filesByFieldName, function (file, fieldName) {
                       // Skip `undefined` values for consistency.
-                      if (file === undefined) { return; }
+                      if (file === undefined) { return }
                       if (!_.isObject(file) || !_.isObject(file.constructor) || file.constructor.name !== 'File') {
-                        throw new Error('Cannot upload as '+fieldName+' because the provided value is not a File instance.  Instead, got:'+file);
+                        throw new Error('Cannot upload as ' + fieldName + ' because the provided value is not a File instance.  Instead, got:' + file)
                       }
-                      ajaxOpts.data.append(fieldName, file, file.name);
-                    });
+                      ajaxOpts.data.append(fieldName, file, file.name)
+                    })
                   }
                   // Otherwise, attach params as a JSON-encoded request body.
                   else {
-                    ajaxOpts.data = JSON.stringify(textParamsByFieldName);
-                    ajaxOpts.processData = false;
-                    ajaxOpts.contentType = 'application/json; charset=UTF-8';
+                    ajaxOpts.data = JSON.stringify(textParamsByFieldName)
+                    ajaxOpts.processData = false
+                    ajaxOpts.contentType = 'application/json; charset=UTF-8'
                   }
 
                   if (typeof requestInfo.headers !== 'undefined') {
-                    ajaxOpts.headers = requestInfo.headers;
+                    ajaxOpts.headers = requestInfo.headers
                   }
 
                   // Dealing with jqXHR:
@@ -853,53 +795,51 @@
 
                   thisJQuery.ajax(_.extend(ajaxOpts, {
                     error: function (jqXHR) {
-
                       return proceed(undefined, {
                         body: jqXHR.responseJSON === undefined ? jqXHR.responseText : jqXHR.responseJSON,
                         statusCode: jqXHR.status,
                         headers: _.reduce(jqXHR.getAllResponseHeaders().split(/\n/), function (memo, pair) {
-                          var splitPair = pair.split(/:/);
-                          var headerName = splitPair[0];
-                          if (headerName === '') { return memo; }
+                          var splitPair = pair.split(/:/)
+                          var headerName = splitPair[0]
+                          if (headerName === '') { return memo }
 
                           // Note that we trim leading AND trailing whitespace.
-                          var headerVal = splitPair.slice(1).join('').replace(/^\s*/, '').replace(/\s*$/, '');
-                          memo[headerName] = headerVal;
+                          var headerVal = splitPair.slice(1).join('').replace(/^\s*/, '').replace(/\s*$/, '')
+                          memo[headerName] = headerVal
                           // Also add an alias using the all-lowercased version of the header name
                           // (if it's different)
-                          var allLowercaseHeaderName = headerName.toLowerCase();
+                          var allLowercaseHeaderName = headerName.toLowerCase()
                           if (allLowercaseHeaderName !== headerName) {
-                            memo[allLowercaseHeaderName] = headerVal;
+                            memo[allLowercaseHeaderName] = headerVal
                           }
-                          return memo;
+                          return memo
                         }, {})
-                      });
+                      })
                     },
                     success: function (unused0, unused1, jqXHR) {
                       return proceed(undefined, {
                         body: jqXHR.responseJSON === undefined ? jqXHR.responseText : jqXHR.responseJSON,
                         statusCode: jqXHR.status,
                         headers: _.reduce(jqXHR.getAllResponseHeaders().split(/\n/), function (memo, pair) {
-                          var splitPair = pair.split(/:/);
-                          var headerName = splitPair[0];
-                          if (headerName === '') { return memo; }
+                          var splitPair = pair.split(/:/)
+                          var headerName = splitPair[0]
+                          if (headerName === '') { return memo }
 
                           // Note that we trim leading AND trailing whitespace.
-                          var headerVal = splitPair.slice(1).join('').replace(/^\s*/, '').replace(/\s*$/, '');
-                          memo[headerName] = headerVal;
+                          var headerVal = splitPair.slice(1).join('').replace(/^\s*/, '').replace(/\s*$/, '')
+                          memo[headerName] = headerVal
                           // Also add an alias using the all-lowercased version of the header name
                           // (if it's different)
-                          var allLowercaseHeaderName = headerName.toLowerCase();
+                          var allLowercaseHeaderName = headerName.toLowerCase()
                           if (allLowercaseHeaderName !== headerName) {
-                            memo[allLowercaseHeaderName] = headerVal;
+                            memo[allLowercaseHeaderName] = headerVal
                           }
-                          return memo;
+                          return memo
                         }, {})
-                      });
+                      })
                     }
-                  }));//</ thisJQuery.ajax + _.extend() >
-                })();//</self-calling function :: _doAjaxWithJQuery>
-
+                  }))// </ thisJQuery.ajax + _.extend() >
+                })()// </self-calling function :: _doAjaxWithJQuery>
 
                 //  ██╗ ██████╗    ███████╗ ██████╗  ██████╗██╗  ██╗███████╗████████╗       ██╗██╗
                 //  ██║██╔═══██╗   ██╔════╝██╔═══██╗██╔════╝██║ ██╔╝██╔════╝╚══██╔══╝▄ ██╗▄██╔╝╚██╗
@@ -908,9 +848,8 @@
                 //  ██║╚██████╔╝██╗███████║╚██████╔╝╚██████╗██║  ██╗███████╗   ██║██╗  ╚═╝ ╚██╗██╔╝
                 //  ╚═╝ ╚═════╝ ╚═╝╚══════╝ ╚═════╝  ╚═════╝╚═╝  ╚═╝╚══════╝   ╚═╝╚═╝       ╚═╝╚═╝
                 //
-                case 'io.socket': return (function _doAjaxWithSocket(){
-
-                  var socket = requestInfo.protocolInstance;
+                case 'io.socket': return (function _doAjaxWithSocket () {
+                  var socket = requestInfo.protocolInstance
 
                   // If `File` constructor is available, check to be sure
                   // that none of the parameter values are File instances.
@@ -918,12 +857,12 @@
                   // > then we don't even bother checking (it's not like it
                   // > would work anyway!)
                   if (File && requestInfo.params) {
-                    _.each(requestInfo.params, function(value, fieldName){
+                    _.each(requestInfo.params, function (value, fieldName) {
                       if (_.isObject(value) && value instanceof File) {
-                        throw new Error('Detected File instance provided for the `'+fieldName+'` parameter -- but file uploads are not currently supported using WebSockets / Socket.io.  Please call this method using a different request protocol (e.g. `protocol: \'jQuery\'`)');
+                        throw new Error('Detected File instance provided for the `' + fieldName + '` parameter -- but file uploads are not currently supported using WebSockets / Socket.io.  Please call this method using a different request protocol (e.g. `protocol: \'jQuery\'`)')
                       }
-                    });
-                  }//ﬁ
+                    })
+                  }// ﬁ
 
                   // Determine if the socket has been disconnected, or if it
                   // has NEVER BEEN connected and is not CURRENTLY TRYING to
@@ -940,8 +879,7 @@
                     // If the socket hasn't even had the _chance_ to begin connecting
                     // (because the one-tick auto-connect timer hasn't fired yet),
                     // then we'll give it that chance.
-                    !socket.mightBeAboutToAutoConnect();
-
+                    !socket.mightBeAboutToAutoConnect()
 
                   // If none of the above were true, then emulate a normal
                   // offline AJAX response from jQuery.
@@ -950,7 +888,7 @@
                       body: null,
                       statusCode: 0,
                       headers: {}
-                    });
+                    })
                   }
                   // Otherwise the socket is either connected, in the process of connecting,
                   // or in an indeterminate state where it has _never_ connected but _might_
@@ -968,10 +906,9 @@
                       body: jwres.body,
                       statusCode: jwres.statusCode,
                       headers: jwres.headers
-                    });
-                  });//</ socket.request() >
-                })();//</self-calling function :: _doAjaxWithSocket>
-
+                    })
+                  })// </ socket.request() >
+                })()// </self-calling function :: _doAjaxWithSocket>
 
                 //  ███╗   ███╗██████╗       ██╗  ██╗████████╗████████╗██████╗
                 //  ████╗ ████║██╔══██╗      ██║  ██║╚══██╔══╝╚══██╔══╝██╔══██╗
@@ -979,86 +916,82 @@
                 //  ██║╚██╔╝██║██╔═══╝ ╚════╝██╔══██║   ██║      ██║   ██╔═══╝
                 //  ██║ ╚═╝ ██║██║           ██║  ██║   ██║      ██║   ██║
                 //  ╚═╝     ╚═╝╚═╝           ╚═╝  ╚═╝   ╚═╝      ╚═╝   ╚═╝
-                case 'machinepack-http': return (function _doAjaxWithMpHttp(){
-
+                case 'machinepack-http': return (function _doAjaxWithMpHttp () {
                   // If `File` constructor is available, check to be sure
                   // that none of the parameter values are File instances.
                   // > Note that if the File constructor is NOT available,
                   // > then we don't even bother checking (it's not like it
                   // > would work anyway!)
                   if (File && requestInfo.params) {
-                    _.each(requestInfo.params, function(value, fieldName){
+                    _.each(requestInfo.params, function (value, fieldName) {
                       if (_.isObject(value) && value instanceof File) {
-                        throw new Error('Detected File instance provided for the `'+fieldName+'` parameter -- but file uploads are not currently supported using this "http" pack.  Please call this method using a different request protocol.');
+                        throw new Error('Detected File instance provided for the `' + fieldName + '` parameter -- but file uploads are not currently supported using this "http" pack.  Please call this method using a different request protocol.')
                       }
-                    });
-                  }//ﬁ
+                    })
+                  }// ﬁ
 
                   var mpHttpOpts = {
                     url: requestInfo.url,
                     method: requestInfo.verb
-                  };
+                  }
                   // If GET request, encode params in querystring.
                   if (requestInfo.verb.match(/get/i)) {
-                    mpHttpOpts.qs = textParamsByFieldName;
+                    mpHttpOpts.qs = textParamsByFieldName
                   }
                   // Otherwise, attach params as the request body.
                   // (it will be JSON-encoded automatically by default)
                   else {
-                    mpHttpOpts.body = textParamsByFieldName;
+                    mpHttpOpts.body = textParamsByFieldName
                   }
 
                   if (typeof requestInfo.headers !== 'undefined') {
-                    mpHttpOpts.headers = requestInfo.headers;
+                    mpHttpOpts.headers = requestInfo.headers
                   }
 
                   requestInfo.protocolInstance.sendHttpRequest.with(mpHttpOpts)
                   .switch({
                     error: function (err) {
-                      return proceed(err);
+                      return proceed(err)
                     },
-                    requestFailed: function(err) {
+                    requestFailed: function (err) {
                       return proceed(undefined, {
                         body: err.message,
                         statusCode: 0,
                         headers: {}
-                      });
+                      })
                     },
-                    non200Response: function(serverResponse) {
-                      return proceed(undefined, serverResponse);
+                    non200Response: function (serverResponse) {
+                      return proceed(undefined, serverResponse)
                     },
-                    success: function (serverResponse){
-
+                    success: function (serverResponse) {
                       // If there is no response body (i.e. `body` is `""`),
                       // then we'll interpret that as `null` and return that as
                       // our response data.
                       if (serverResponse.body === '') {
-                        serverResponse.body = null;
+                        serverResponse.body = null
                       }
 
                       // --•
                       // Otherwise, attempt to parse the response body as JSON.
                       try {
-                        serverResponse.body = JSON.parse(serverResponse.body);
-                      } catch (err) {//eslint-disable-line no-unused-vars
+                        serverResponse.body = JSON.parse(serverResponse.body)
+                      } catch (err) { // eslint-disable-line no-unused-vars
                         // If the raw response body string cannot be parsed as JSON,
                         // then interpret it as a string by leaving the raw body as-is.
                       }
 
-                      return proceed(undefined, serverResponse);
+                      return proceed(undefined, serverResponse)
                     }
-                  });//_∏_
-                })();//</self-calling function :: _doAjaxWithMpHttp>
+                  })// _∏_
+                })()// </self-calling function :: _doAjaxWithMpHttp>
 
                 default:
-                  throw new Error('Consistency violation: Unexpected protocol name received (`'+requestInfo.protocolName+'`)-- but it should have already been checked!');
-
-              }//</switch(protocol)>
-            })(function afterwards(err, responseInfo){
+                  throw new Error('Consistency violation: Unexpected protocol name received (`' + requestInfo.protocolName + '`)-- but it should have already been checked!')
+              }// </switch(protocol)>
+            })(function afterwards (err, responseInfo) {
               if (err) {
-                throw new Error('Consistency violation: Unexpected error in CloudSDK. Details: '+err.stack);
+                throw new Error('Consistency violation: Unexpected error in CloudSDK. Details: ' + err.stack)
               }
-
 
               // Note that the response info dictionary is intended to be
               // a transport-agnostic way of representing a server response.
@@ -1084,15 +1017,13 @@
               // console.log(responseInfo.headers['X-Exit-Output-Friendly-Name']);
               // console.log(responseInfo.headers['X-Exit-Output-Description']);
 
-
-
               // COMPATIBILITY:
               // Stick `data` property on responseInfo so it feels familiar
               // e.g. like `res.data` in angular 1
               // (This is mainly for backwards compatibility, and can probably
               // be removed at some point.)
               if (!_.isUndefined(responseInfo.body)) {
-                responseInfo.data = responseInfo.body;
+                responseInfo.data = responseInfo.body
               }
 
               // Determine the appropriate callback to call.
@@ -1101,20 +1032,19 @@
               // by sniffing the X-Exit header.  We default to `error`
               // or `success`, depending on whether an Error instance
               // was passed through as the `error` property.
-              var xExitResponseHeaderValue = responseInfo.headers['x-exit'] || responseInfo.headers['X-Exit'];
+              var xExitResponseHeaderValue = responseInfo.headers['x-exit'] || responseInfo.headers['X-Exit']
               // ^This "either-or-ing" is likely necessary because of different jQuery versions.
 
               if (xExitResponseHeaderValue === '_offline') {
-                console.warn('Unconventional exit detected:  `_offline` is a reserved exit name for use on the front-end, and should not be used willy nilly.  Instead, please come up with a different exit name for this scenario.');
-              }//ﬁ
-
+                console.warn('Unconventional exit detected:  `_offline` is a reserved exit name for use on the front-end, and should not be used willy nilly.  Instead, please come up with a different exit name for this scenario.')
+              }// ﬁ
 
               // If the user's computer is offline or the server is down, etc...
               // > If `statusCode` is 0, then the user is probably offline.
               // > Or maybe our server is down omg.
               // > Or it could be that a cross-origin request was blocked.
               if (responseInfo.statusCode === 0) {
-                responseInfo.exit = '_offline';
+                responseInfo.exit = '_offline'
                 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
                 // FUTURE: Instead of "_offline", support more granular/accurate
                 // built-in exits like:
@@ -1130,60 +1060,51 @@
                 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
               }
               // If the server responded with a specific error...
-              else if (xExitResponseHeaderValue){
-                responseInfo.exit = xExitResponseHeaderValue;
+              else if (xExitResponseHeaderValue) {
+                responseInfo.exit = xExitResponseHeaderValue
               }
               // If the server responded with some other misc. error...
               else if (responseInfo.statusCode < 200 || responseInfo.statusCode >= 300) {
-                responseInfo.exit = 'error';
+                responseInfo.exit = 'error'
               }
               // Otherwise, we'll consider it a success!
               else {
-                responseInfo.exit = 'success';
+                responseInfo.exit = 'success'
               }
 
               // Set up `code` as alias for `exit`, for consistency.
-              responseInfo.code = responseInfo.exit;
-
-
+              responseInfo.code = responseInfo.exit
 
               // Now before proceeding further, check lifecycleInstructions for a match (if there are any configured).
               // > NOTE: We only ever run one of these handlers for any given response!
-              var matchingLifecycleInstruction = _.find(requestInfo.lifecycleInstructions, function(lifecycleInstruction) {
-
+              var matchingLifecycleInstruction = _.find(requestInfo.lifecycleInstructions, function (lifecycleInstruction) {
                 if (lifecycleInstruction.rule === undefined) {
                   if (responseInfo.exit === 'success' || (responseInfo.statusCode >= 200 && responseInfo.statusCode < 300)) {
-                    return false;
+                    return false
+                  } else {
+                    return true
                   }
-                  else {
-                    return true;
-                  }
-                }
-                else if (responseInfo.statusCode === lifecycleInstruction.rule) {
-                  return true;
-                }
-                else if (responseInfo.exit === lifecycleInstruction.rule) {
-                  return true;
+                } else if (responseInfo.statusCode === lifecycleInstruction.rule) {
+                  return true
+                } else if (responseInfo.exit === lifecycleInstruction.rule) {
+                  return true
                 }
                 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
                 // FUTURE: add support for bluebird style dictionary rules
                 // (see flaverr.taste at https://npmjs.com/package/flaverr)
                 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-              });//∞
-
+              });// ∞
 
               // If there was a match, then run this intercept/toleration's handler function.
-              (function _runInterceptOrTolerationMaybe(proceed){
-
+              (function _runInterceptOrTolerationMaybe (proceed) {
                 if (!matchingLifecycleInstruction) {
-                  return proceed();
-                }//•
+                  return proceed()
+                }// •
 
-                var resultFromHandler;
+                var resultFromHandler
 
                 if (matchingLifecycleInstruction.handler.constructor.name === 'AsyncFunction') {
-                  return proceed(new Error('`async` functions are not *yet* fully supported in intercept/tolerate'));
+                  return proceed(new Error('`async` functions are not *yet* fully supported in intercept/tolerate'))
                   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
                   // FUTURE: add support for this, beginning with something like the
                   // following incomplete implementation:
@@ -1209,52 +1130,46 @@
                   // });
                   // ```
                   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                }
-                else {
+                } else {
                   try {
                     // FUTURE: do this addition of properties earlier:
-                    errorInstance.exit = responseInfo.exit;
-                    errorInstance.code = responseInfo.exit;
-                    errorInstance.responseInfo = responseInfo;
+                    errorInstance.exit = responseInfo.exit
+                    errorInstance.code = responseInfo.exit
+                    errorInstance.responseInfo = responseInfo
 
-                    resultFromHandler = matchingLifecycleInstruction.handler(errorInstance);
+                    resultFromHandler = matchingLifecycleInstruction.handler(errorInstance)
                   } catch (err) {
-                    if (err === false) { return proceed(undefined, true); }//« special case (`throw false`)
-                    else { return proceed(err); }
+                    if (err === false) { return proceed(undefined, true) }// « special case (`throw false`)
+                    else { return proceed(err) }
                   }
 
-                  return proceed(undefined, resultFromHandler);
+                  return proceed(undefined, resultFromHandler)
                 }
-
-              })(function(err, resultFromInterceptOrTolerate) {
-
+              })(function (err, resultFromInterceptOrTolerate) {
                 if (err) {
-                  throw new Error('The provided custom intercept/tolerate logic threw an unexpected, uncaught error: '+err.stack);
+                  throw new Error('The provided custom intercept/tolerate logic threw an unexpected, uncaught error: ' + err.stack)
                   // FUTURE: better error handling for this case ^^
-                }//•
-
+                }// •
 
                 if (matchingLifecycleInstruction) {
                   if (responseInfo.exit === 'success' || (responseInfo.statusCode >= 200 && responseInfo.statusCode < 300)) {
-                    throw new Error('Unexpected intercept/tolerate logic matched a 2xx/success response, but these methods should only be used for exceptions!');
+                    throw new Error('Unexpected intercept/tolerate logic matched a 2xx/success response, but these methods should only be used for exceptions!')
                     // FUTURE: better error handling for this case ^^
                   }
                 }
 
                 // If a matching `.tolerate()` was encountered, then consider this successful no matter what.
-                var tolerateAsIfSuccess = (matchingLifecycleInstruction && matchingLifecycleInstruction.type === 'tolerate');
-
+                var tolerateAsIfSuccess = (matchingLifecycleInstruction && matchingLifecycleInstruction.type === 'tolerate')
 
                 // If a matching `.intercept()` was encountered, then consider whatever the intercept handler
                 // returned to be our new Error.
                 if (matchingLifecycleInstruction && matchingLifecycleInstruction.type === 'intercept') {
                   if (!_.isError(resultFromInterceptOrTolerate)) {
-                    throw new Error('Unexpected value returned from .intercept() handler.  Expected an Error instance but instead, got: '+resultFromInterceptOrTolerate);
+                    throw new Error('Unexpected value returned from .intercept() handler.  Expected an Error instance but instead, got: ' + resultFromInterceptOrTolerate)
                     // FUTURE: better error handling for this case ^^
                   }
-                  errorInstance = resultFromInterceptOrTolerate;
+                  errorInstance = resultFromInterceptOrTolerate
                 }
-
 
                 // If no custom error callback was specified, but we don't know
                 // how to handle an error below, then we'll simply throw a fatal
@@ -1266,13 +1181,13 @@
                 // that can occur this way throughout the code below.
                 var UNHANDLED_ERR_PREFIX_MSG =
                 (
-                  (responseInfo.statusCode===0)?
-                  'Unable to send request... are the client and server both online?'
-                  :'Received unhandled '+responseInfo.statusCode+' error from server.'
-                )+'  '+
-                '(See `responseInfo` property of this error for details).  '+
-                'Note that you can negotiate any error using its `exit` or `responseInfo.statusCode` properties.\n'+
-                '--\n';
+                  (responseInfo.statusCode === 0)
+                  ? 'Unable to send request... are the client and server both online?'
+                  : 'Received unhandled ' + responseInfo.statusCode + ' error from server.'
+                ) + '  ' +
+                '(See `responseInfo` property of this error for details).  ' +
+                'Note that you can negotiate any error using its `exit` or `responseInfo.statusCode` properties.\n' +
+                '--\n'
 
                 //  ┌─┐┌─┐┌┐┌┌─┐┬─┐┬┌─┐   ┌─┐─┐ ┬┌─┐┌─┐  ┌─┐┌─┐┬  ┬  ┌┐ ┌─┐┌─┐┬┌─  ┌─┐┬ ┬┌┐┌┌─┐┌┬┐┬┌─┐┌┐┌
                 //  │ ┬├┤ │││├┤ ├┬┘││     ├┤ ┌┴┬┘├┤ │    │  ├─┤│  │  ├┴┐├─┤│  ├┴┐  ├┤ │ │││││   │ ││ ││││
@@ -1280,218 +1195,204 @@
                 // If a generic callback was provided...
                 if (_.isFunction(exitCallbacks)) {
                   if (tolerateAsIfSuccess) {
-                    return exitCallbacks(undefined, resultFromInterceptOrTolerate, responseInfo);
-                  }
-                  else if (responseInfo.exit === 'success' || (responseInfo.statusCode >= 200 && responseInfo.statusCode < 300)) {
-                    return exitCallbacks(undefined, responseInfo.body, responseInfo);
-                  }
-                  else {
-                    errorInstance.stack += '\n'+
-                    '\n'+
-                    'Error Summary:\n'+
-                    '(see `.responseInfo` for more details)\n'+
-                    '·-------------·----------------------------------------·\n'+
-                    '|    Protocol | '+(requestInfo.protocolName==='jQuery'?'http(s)://   (jQuery)':requestInfo.protocolName==='io.socket'?'ws(s)://   (io.socket)':requestInfo.protocolName)+'\n'+
-                    '|     Address | '+requestInfo.verb.toUpperCase()+' '+requestInfo.url+'\n'+
-                    '|        Exit | '+responseInfo.exit+'\n'+
-                    '| Status Code | '+responseInfo.statusCode+'\n'+
-                    '·-------------·----------------------------------------·';
+                    return exitCallbacks(undefined, resultFromInterceptOrTolerate, responseInfo)
+                  } else if (responseInfo.exit === 'success' || (responseInfo.statusCode >= 200 && responseInfo.statusCode < 300)) {
+                    return exitCallbacks(undefined, responseInfo.body, responseInfo)
+                  } else {
+                    errorInstance.stack += '\n' +
+                    '\n' +
+                    'Error Summary:\n' +
+                    '(see `.responseInfo` for more details)\n' +
+                    '·-------------·----------------------------------------·\n' +
+                    '|    Protocol | ' + (requestInfo.protocolName === 'jQuery' ? 'http(s)://   (jQuery)' : requestInfo.protocolName === 'io.socket' ? 'ws(s)://   (io.socket)' : requestInfo.protocolName) + '\n' +
+                    '|     Address | ' + requestInfo.verb.toUpperCase() + ' ' + requestInfo.url + '\n' +
+                    '|        Exit | ' + responseInfo.exit + '\n' +
+                    '| Status Code | ' + responseInfo.statusCode + '\n' +
+                    '·-------------·----------------------------------------·'
                     if (responseInfo.body !== undefined) {
-                      errorInstance.stack += '\n\nResponse Body:\n'+responseInfo.body;
+                      errorInstance.stack += '\n\nResponse Body:\n' + responseInfo.body
                     }
-                    errorInstance.responseInfo = responseInfo;
-                    errorInstance.exit = responseInfo.exit;
-                    errorInstance.code = responseInfo.exit;
-                    return exitCallbacks(errorInstance, responseInfo.body!==undefined?responseInfo.body:errorInstance, responseInfo);
+                    errorInstance.responseInfo = responseInfo
+                    errorInstance.exit = responseInfo.exit
+                    errorInstance.code = responseInfo.exit
+                    return exitCallbacks(errorInstance, responseInfo.body !== undefined ? responseInfo.body : errorInstance, responseInfo)
                   }
-                }//‡
+                }// ‡
                 //  ┌─┐┬ ┬┬┌┬┐┌─┐┬ ┬┌┐ ┌─┐┌─┐┬┌─  ┌┬┐┬┌─┐┌┬┐┬┌─┐┌┐┌┌─┐┬─┐┬ ┬
                 //  └─┐││││ │ │  ├─┤├┴┐├─┤│  ├┴┐   ││││   │ ││ ││││├─┤├┬┘└┬┘
                 //  └─┘└┴┘┴ ┴ └─┘┴ ┴└─┘┴ ┴└─┘┴ ┴  ─┴┘┴└─┘ ┴ ┴└─┘┘└┘┴ ┴┴└─ ┴
                 // If a dictionary of callbacks was provided...
                 else if (_.isObject(exitCallbacks)) {
-
                   // If this isn't the error exit, and a callback exists for it...
                   if (responseInfo.exit !== 'error' && exitCallbacks[responseInfo.exit]) {
-
                     // If there's a response body, pass it to the callback.
                     if (responseInfo.body !== undefined) {
-                      return exitCallbacks[responseInfo.exit](tolerateAsIfSuccess ? resultFromInterceptOrTolerate : responseInfo.body, responseInfo);
+                      return exitCallbacks[responseInfo.exit](tolerateAsIfSuccess ? resultFromInterceptOrTolerate : responseInfo.body, responseInfo)
                     }
                     // Otherwise, there's no response body.
                     // So if this is a "success" response, or any 2xx response,
                     // then don't pass a first arg to the callback.
                     else if (tolerateAsIfSuccess || responseInfo.exit === 'success' || (responseInfo.statusCode >= 200 && responseInfo.statusCode < 300)) {
-                      return exitCallbacks['success'](tolerateAsIfSuccess ? resultFromInterceptOrTolerate : undefined, responseInfo);
+                      return exitCallbacks['success'](tolerateAsIfSuccess ? resultFromInterceptOrTolerate : undefined, responseInfo)
                     }
                     // Otherwise, pass an error instance as the first arg of the callback.
                     else {
-                      errorInstance.stack += '\n'+
-                      '\n'+
-                      'Error Summary:\n'+
-                      '(see `.responseInfo` for more details)\n'+
-                      '·-------------·----------------------------------------·\n'+
-                      '|    Protocol | '+(requestInfo.protocolName==='jQuery'?'http(s)://   (jQuery)':requestInfo.protocolName==='io.socket'?'ws(s)://   (io.socket)':requestInfo.protocolName)+'\n'+
-                      '|     Address | '+requestInfo.verb.toUpperCase()+' '+requestInfo.url+'\n'+
-                      '|        Exit | '+responseInfo.exit+'\n'+
-                      '| Status Code | '+responseInfo.statusCode+'\n'+
-                      '·-------------·----------------------------------------·';
+                      errorInstance.stack += '\n' +
+                      '\n' +
+                      'Error Summary:\n' +
+                      '(see `.responseInfo` for more details)\n' +
+                      '·-------------·----------------------------------------·\n' +
+                      '|    Protocol | ' + (requestInfo.protocolName === 'jQuery' ? 'http(s)://   (jQuery)' : requestInfo.protocolName === 'io.socket' ? 'ws(s)://   (io.socket)' : requestInfo.protocolName) + '\n' +
+                      '|     Address | ' + requestInfo.verb.toUpperCase() + ' ' + requestInfo.url + '\n' +
+                      '|        Exit | ' + responseInfo.exit + '\n' +
+                      '| Status Code | ' + responseInfo.statusCode + '\n' +
+                      '·-------------·----------------------------------------·'
                       if (responseInfo.body !== undefined) {
-                        errorInstance.stack += '\n\nResponse Body:\n'+responseInfo.body;
+                        errorInstance.stack += '\n\nResponse Body:\n' + responseInfo.body
                       }
-                      errorInstance.responseInfo = responseInfo;
-                      errorInstance.exit = responseInfo.exit;
-                      errorInstance.code = responseInfo.exit;
-                      return exitCallbacks[responseInfo.exit](errorInstance, responseInfo);
+                      errorInstance.responseInfo = responseInfo
+                      errorInstance.exit = responseInfo.exit
+                      errorInstance.code = responseInfo.exit
+                      return exitCallbacks[responseInfo.exit](errorInstance, responseInfo)
                     }
                   }
                   // Otherwise, if this is a "success" response, or any 2xx response, then...
                   else if (tolerateAsIfSuccess || responseInfo.exit === 'success' || (responseInfo.statusCode >= 200 && responseInfo.statusCode < 300)) {
                     if (exitCallbacks['success']) {
                       // Either forward to the "success" callback (if there is one)
-                      return exitCallbacks['success'](tolerateAsIfSuccess ? resultFromInterceptOrTolerate : responseInfo.body, responseInfo);
-                    }
-                    else {
+                      return exitCallbacks['success'](tolerateAsIfSuccess ? resultFromInterceptOrTolerate : responseInfo.body, responseInfo)
+                    } else {
                       // or otherwise do nothing.
                     }
                   }
                   // Otherwise call the error callback.
                   else if (exitCallbacks['error']) {
-                    errorInstance.stack += '\n'+
-                    '\n'+
-                    'Error Summary:\n'+
-                    '(see `.responseInfo` for more details)\n'+
-                    '·-------------·----------------------------------------·\n'+
-                    '|    Protocol | '+(requestInfo.protocolName==='jQuery'?'http(s)://   (jQuery)':requestInfo.protocolName==='io.socket'?'ws(s)://   (io.socket)':requestInfo.protocolName)+'\n'+
-                    '|     Address | '+requestInfo.verb.toUpperCase()+' '+requestInfo.url+'\n'+
-                    '|        Exit | '+responseInfo.exit+'\n'+
-                    '| Status Code | '+responseInfo.statusCode+'\n'+
-                    '·-------------·----------------------------------------·';
+                    errorInstance.stack += '\n' +
+                    '\n' +
+                    'Error Summary:\n' +
+                    '(see `.responseInfo` for more details)\n' +
+                    '·-------------·----------------------------------------·\n' +
+                    '|    Protocol | ' + (requestInfo.protocolName === 'jQuery' ? 'http(s)://   (jQuery)' : requestInfo.protocolName === 'io.socket' ? 'ws(s)://   (io.socket)' : requestInfo.protocolName) + '\n' +
+                    '|     Address | ' + requestInfo.verb.toUpperCase() + ' ' + requestInfo.url + '\n' +
+                    '|        Exit | ' + responseInfo.exit + '\n' +
+                    '| Status Code | ' + responseInfo.statusCode + '\n' +
+                    '·-------------·----------------------------------------·'
                     if (responseInfo.body !== undefined) {
-                      errorInstance.stack += '\n\nResponse Body:\n'+responseInfo.body;
+                      errorInstance.stack += '\n\nResponse Body:\n' + responseInfo.body
                     }
-                    errorInstance.responseInfo = responseInfo;
-                    errorInstance.exit = responseInfo.exit;
-                    errorInstance.code = responseInfo.code;
-                    return exitCallbacks['error'](errorInstance, responseInfo);
+                    errorInstance.responseInfo = responseInfo
+                    errorInstance.exit = responseInfo.exit
+                    errorInstance.code = responseInfo.code
+                    return exitCallbacks['error'](errorInstance, responseInfo)
                   }
                   // Or if there isn't an error callback, just throw.
                   else {
-                    errorInstance.stack += '\n'+
-                    '\n'+
-                    'Error Summary:\n'+
-                    '(see `.responseInfo` for more details)\n'+
-                    '·-------------·----------------------------------------·\n'+
-                    '|    Protocol | '+(requestInfo.protocolName==='jQuery'?'http(s)://   (jQuery)':requestInfo.protocolName==='io.socket'?'ws(s)://   (io.socket)':requestInfo.protocolName)+'\n'+
-                    '|     Address | '+requestInfo.verb.toUpperCase()+' '+requestInfo.url+'\n'+
-                    '|        Exit | '+responseInfo.exit+'\n'+
-                    '| Status Code | '+responseInfo.statusCode+'\n'+
-                    '·-------------·----------------------------------------·';
+                    errorInstance.stack += '\n' +
+                    '\n' +
+                    'Error Summary:\n' +
+                    '(see `.responseInfo` for more details)\n' +
+                    '·-------------·----------------------------------------·\n' +
+                    '|    Protocol | ' + (requestInfo.protocolName === 'jQuery' ? 'http(s)://   (jQuery)' : requestInfo.protocolName === 'io.socket' ? 'ws(s)://   (io.socket)' : requestInfo.protocolName) + '\n' +
+                    '|     Address | ' + requestInfo.verb.toUpperCase() + ' ' + requestInfo.url + '\n' +
+                    '|        Exit | ' + responseInfo.exit + '\n' +
+                    '| Status Code | ' + responseInfo.statusCode + '\n' +
+                    '·-------------·----------------------------------------·'
                     if (responseInfo.body !== undefined) {
-                      errorInstance.stack += '\n\nResponse Body:\n'+responseInfo.body;
+                      errorInstance.stack += '\n\nResponse Body:\n' + responseInfo.body
                     }
-                    errorInstance.stack = UNHANDLED_ERR_PREFIX_MSG + errorInstance.stack;
-                    errorInstance.responseInfo = responseInfo;
-                    throw errorInstance;
+                    errorInstance.stack = UNHANDLED_ERR_PREFIX_MSG + errorInstance.stack
+                    errorInstance.responseInfo = responseInfo
+                    throw errorInstance
                   }
-                }//‡
+                }// ‡
                 //  ┌┐┌┌─┐  ┌─┐┌─┐┬  ┬  ┌┐ ┌─┐┌─┐┬┌─  ┌─┐┌─┐  ┌─┐┌┐┌┬ ┬  ┬┌─┬┌┐┌┌┬┐
                 //  ││││ │  │  ├─┤│  │  ├┴┐├─┤│  ├┴┐  │ │├┤   ├─┤│││└┬┘  ├┴┐││││ ││
                 //  ┘└┘└─┘  └─┘┴ ┴┴─┘┴─┘└─┘┴ ┴└─┘┴ ┴  └─┘└    ┴ ┴┘└┘ ┴   ┴ ┴┴┘└┘─┴┘
                 // If _no callbacks of any kind_ were provided...
                 else if (_.isUndefined(exitCallbacks)) {
-
                   // If this was successful, then do nothing.
                   if (tolerateAsIfSuccess || responseInfo.exit === 'success' || (responseInfo.statusCode >= 200 && responseInfo.statusCode < 300)) {
-                    return;
+
                   }
                   // Otherwise, throw.
                   else {
-                    errorInstance.stack += '\n'+
-                    '\n'+
-                    'Error Summary:\n'+
-                    '(see `.responseInfo` for more details)\n'+
-                    '·-------------·----------------------------------------·\n'+
-                    '|    Protocol | '+(requestInfo.protocolName==='jQuery'?'http(s)://   (jQuery)':requestInfo.protocolName==='io.socket'?'ws(s)://   (io.socket)':requestInfo.protocolName)+'\n'+
-                    '|     Address | '+requestInfo.verb.toUpperCase()+' '+requestInfo.url+'\n'+
-                    '|        Exit | '+responseInfo.exit+'\n'+
-                    '| Status Code | '+responseInfo.statusCode+'\n'+
-                    '·-------------·----------------------------------------·';
+                    errorInstance.stack += '\n' +
+                    '\n' +
+                    'Error Summary:\n' +
+                    '(see `.responseInfo` for more details)\n' +
+                    '·-------------·----------------------------------------·\n' +
+                    '|    Protocol | ' + (requestInfo.protocolName === 'jQuery' ? 'http(s)://   (jQuery)' : requestInfo.protocolName === 'io.socket' ? 'ws(s)://   (io.socket)' : requestInfo.protocolName) + '\n' +
+                    '|     Address | ' + requestInfo.verb.toUpperCase() + ' ' + requestInfo.url + '\n' +
+                    '|        Exit | ' + responseInfo.exit + '\n' +
+                    '| Status Code | ' + responseInfo.statusCode + '\n' +
+                    '·-------------·----------------------------------------·'
                     if (responseInfo.body !== undefined) {
-                      errorInstance.stack += '\n\nResponse Body:\n'+responseInfo.body;
+                      errorInstance.stack += '\n\nResponse Body:\n' + responseInfo.body
                     }
-                    errorInstance.stack = UNHANDLED_ERR_PREFIX_MSG + errorInstance.stack;
-                    errorInstance.responseInfo = responseInfo;
-                    throw errorInstance;
+                    errorInstance.stack = UNHANDLED_ERR_PREFIX_MSG + errorInstance.stack
+                    errorInstance.responseInfo = responseInfo
+                    throw errorInstance
                   }
-                }//‡
+                }// ‡
                 else {
-                  throw new Error('Invalid usage of Cloud.*() method.  Provide either a dictionary of callbacks, a single callback function, or NOTHING to `.exec()`.');
+                  throw new Error('Invalid usage of Cloud.*() method.  Provide either a dictionary of callbacks, a single callback function, or NOTHING to `.exec()`.')
                 }
-
-              });//_∏_  </cb from † _runInterceptOrTolerationMaybe()>
-
-            });//_∏_  </cb from † _makeAjaxCallWithAppropriateProtocol()>
+              })// _∏_  </cb from † _runInterceptOrTolerationMaybe()>
+            })// _∏_  </cb from † _makeAjaxCallWithAppropriateProtocol()>
 
             // --
             // > Note that we don't return anything at all here.
             // > (That's to ensure userland code doesn't attempt any further chaining or `await`ing.)
+          }, // </definition of `.exec()` >
 
-          },//</definition of `.exec()` >
-
-          switch: function (){
-            deferred.exec.apply(deferred, arguments);
+          switch: function () {
+            deferred.exec.apply(deferred, arguments)
             // --
             // > Note that we don't return anything at all here.
             // > (That's to ensure userland code doesn't attempt any further chaining or `await`ing.)
           },
 
           // FUTURE: use parley for this instead, if available
-          log: function (){
+          log: function () {
+            console.log('Running with `.log()`...')
 
-            console.log('Running with `.log()`...');
-
-            this.exec(function(err, result) {
+            this.exec(function (err, result) {
               if (err) {
-                console.error();
-                console.error('- - - - - - - - - - - - - - - - - - - - - - - -');
-                console.error('An error occurred:');
-                console.error();
-                console.error(err);
-                console.error('- - - - - - - - - - - - - - - - - - - - - - - -');
-                console.error();
-                return;
-              }//-•
+                console.error()
+                console.error('- - - - - - - - - - - - - - - - - - - - - - - -')
+                console.error('An error occurred:')
+                console.error()
+                console.error(err)
+                console.error('- - - - - - - - - - - - - - - - - - - - - - - -')
+                console.error()
+                return
+              }// -•
 
-              console.log();
+              console.log()
               if (_.isUndefined(result)) {
-                console.log('- - - - - - - - - - - - - - - - - - - - - - - -');
-                console.log('Finished successfully.');
-                console.log();
-                console.log('(There was no result.)');
-                console.log('- - - - - - - - - - - - - - - - - - - - - - - -');
+                console.log('- - - - - - - - - - - - - - - - - - - - - - - -')
+                console.log('Finished successfully.')
+                console.log()
+                console.log('(There was no result.)')
+                console.log('- - - - - - - - - - - - - - - - - - - - - - - -')
+              } else {
+                console.log('- - - - - - - - - - - - - - - - - - - - - - - -')
+                console.log('Finished successfully.')
+                console.log()
+                console.log('Result:')
+                console.log()
+                console.log(result)
+                console.log('- - - - - - - - - - - - - - - - - - - - - - - -')
               }
-              else {
-                console.log('- - - - - - - - - - - - - - - - - - - - - - - -');
-                console.log('Finished successfully.');
-                console.log();
-                console.log('Result:');
-                console.log();
-                console.log(result);
-                console.log('- - - - - - - - - - - - - - - - - - - - - - - -');
-              }
-              console.log();
-
-            });//_∏_
+              console.log()
+            })// _∏_
 
             // --
             // > Note that we don't return anything at all here.
             // > (That's to ensure userland code doesn't attempt any further chaining or `await`ing.)
           }
 
-        };// </define deferred object>
-
-
+        }// </define deferred object>
 
         //  ███╗   ███╗███████╗██████╗  ██████╗ ███████╗    ██████╗ ███████╗███████╗ █████╗ ██╗   ██╗██╗  ████████╗███████╗
         //  ████╗ ████║██╔════╝██╔══██╗██╔════╝ ██╔════╝    ██╔══██╗██╔════╝██╔════╝██╔══██╗██║   ██║██║  ╚══██╔══╝██╔════╝
@@ -1515,12 +1416,11 @@
         //  ╚═════╝ ╚══════╝╚═╝     ╚═╝╚═╝  ╚═══╝╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
         //
         // Now set up the endpoint definition.
-        //////////////////////////////////////////////////////////////////////
-
+        /// ///////////////////////////////////////////////////////////////////
 
         // If a function was supplied, call it and use the dictionary
         // it returns as our request info.
-        //////////////////////////////////////////////////////////////////////
+        /// ///////////////////////////////////////////////////////////////////
         // e.g. function (argins){
         //   return {
         //     verb: 'post',
@@ -1532,33 +1432,30 @@
         //   }
         // }
         if (typeof appLevelSdkEndpointDef === 'function') {
-          var returnedFromEndpointDefFn = appLevelSdkEndpointDef.apply(this, argins);
+          var returnedFromEndpointDefFn = appLevelSdkEndpointDef.apply(this, argins)
           if (typeof returnedFromEndpointDefFn !== 'object') {
-            throw new Error('Consistency violation: Function for CloudSDK endpoint (`'+methodName+'`) returned an invalid result.  The return value of the specified function is not a dictionary!  If a function is supplied for an endpoint definition, it must return a dictionary containing a `verb` and a `url`.  The returned dictionary may also contain dynamic, per-request header & parameter values.');
+            throw new Error('Consistency violation: Function for CloudSDK endpoint (`' + methodName + '`) returned an invalid result.  The return value of the specified function is not a dictionary!  If a function is supplied for an endpoint definition, it must return a dictionary containing a `verb` and a `url`.  The returned dictionary may also contain dynamic, per-request header & parameter values.')
           }
 
           if (!_.isUndefined(returnedFromEndpointDefFn.headers)) {
-            deferred = deferred.headers(returnedFromEndpointDefFn.headers);
-          }
-          else if (options.headers) {
-            deferred = deferred.headers(options.headers);
+            deferred = deferred.headers(returnedFromEndpointDefFn.headers)
+          } else if (options.headers) {
+            deferred = deferred.headers(options.headers)
           }
 
           if (!_.isUndefined(returnedFromEndpointDefFn.protocol)) {
-            deferred = deferred.protocol(returnedFromEndpointDefFn.protocol);
-          }
-          else if (options.protocol) {
-            deferred.protocol(options.protocol);
-          }
-          else { deferred.protocol(DEFAULT_PROTOCOL_NAME); }
+            deferred = deferred.protocol(returnedFromEndpointDefFn.protocol)
+          } else if (options.protocol) {
+            deferred.protocol(options.protocol)
+          } else { deferred.protocol(DEFAULT_PROTOCOL_NAME) }
 
-          requestInfo.verb = returnedFromEndpointDefFn.verb;
-          requestInfo.url = returnedFromEndpointDefFn.url;
-          requestInfo.params = argins;
+          requestInfo.verb = returnedFromEndpointDefFn.verb
+          requestInfo.url = returnedFromEndpointDefFn.url
+          requestInfo.params = argins
         }
 
         // If a dictionary was supplied, use that as our request info.
-        //////////////////////////////////////////////////////////////////////
+        /// ///////////////////////////////////////////////////////////////////
         // e.g. {
         //   verb: 'post',
         //   url: '/foo/bar',
@@ -1567,114 +1464,100 @@
         // }
         else if (appLevelSdkEndpointDef && typeof appLevelSdkEndpointDef === 'object') {
           if (!_.isUndefined(appLevelSdkEndpointDef.headers)) {
-            deferred.headers(appLevelSdkEndpointDef.headers);
-          }
-          else if (options.headers) {
-            deferred = deferred.headers(options.headers);
+            deferred.headers(appLevelSdkEndpointDef.headers)
+          } else if (options.headers) {
+            deferred = deferred.headers(options.headers)
           }
 
           if (!_.isUndefined(appLevelSdkEndpointDef.protocol)) {
-            deferred.protocol(appLevelSdkEndpointDef.protocol);
-          }
-          else if (options.protocol) {
-            deferred.protocol(options.protocol);
-          }
-          else { deferred.protocol(DEFAULT_PROTOCOL_NAME); }
+            deferred.protocol(appLevelSdkEndpointDef.protocol)
+          } else if (options.protocol) {
+            deferred.protocol(options.protocol)
+          } else { deferred.protocol(DEFAULT_PROTOCOL_NAME) }
 
-          requestInfo.verb = appLevelSdkEndpointDef.verb;
-          requestInfo.url = appLevelSdkEndpointDef.url;
-          requestInfo.params = argins;
+          requestInfo.verb = appLevelSdkEndpointDef.verb
+          requestInfo.url = appLevelSdkEndpointDef.url
+          requestInfo.params = argins
         }
 
         // If a string was supplied, expand and use that as our request info.
-        //////////////////////////////////////////////////////////////////////
+        /// ///////////////////////////////////////////////////////////////////
         // e.g. "POST /api/v1/lawnmowers/foo/inputs/bar"
         else if (typeof appLevelSdkEndpointDef === 'string') {
-
           if (options.headers) {
-            deferred = deferred.headers(options.headers);
+            deferred = deferred.headers(options.headers)
           }
 
           // Set up default protocol.
           if (options.protocol) {
-            deferred.protocol(options.protocol);
-          }
-          else { deferred.protocol(DEFAULT_PROTOCOL_NAME); }
+            deferred.protocol(options.protocol)
+          } else { deferred.protocol(DEFAULT_PROTOCOL_NAME) }
 
           // And then fold in the other pieces of request info.
-          requestInfo.verb = appLevelSdkEndpointDef.replace(/^\s*([^\/\s]+)\s*\/.*$/, '$1');
-          requestInfo.url = appLevelSdkEndpointDef.replace(/^\s*[^\/\s]+\s*\/(.*)$/, '/$1');
-          requestInfo.params = argins;
+          requestInfo.verb = appLevelSdkEndpointDef.replace(/^\s*([^\/\s]+)\s*\/.*$/, '$1')
+          requestInfo.url = appLevelSdkEndpointDef.replace(/^\s*[^\/\s]+\s*\/(.*)$/, '/$1')
+          requestInfo.params = argins
+        } else {
+          throw new Error('Consistency violation: Something happened to CloudSDK endpoint (`' + methodName + '`).  This was not noticed initially when building up CloudSDK endpoints, but this endpoint is now invalid.  Endpoints should be defined as either (1) a string like "GET /foo", (2) a dictionary containing a `verb` and a `url`, or (3) a function that returns a dictionary like that.')
         }
-
-        else {
-          throw new Error('Consistency violation: Something happened to CloudSDK endpoint (`'+methodName+'`).  This was not noticed initially when building up CloudSDK endpoints, but this endpoint is now invalid.  Endpoints should be defined as either (1) a string like "GET /foo", (2) a dictionary containing a `verb` and a `url`, or (3) a function that returns a dictionary like that.');
-        }
-
 
         // Now template in URL pattern vars from the runtime request args.
-        /////////////////////////////////////////////////////////////////////////////
+        /// //////////////////////////////////////////////////////////////////////////
 
         // Find keys in `params` which are route parameters
         // (e.g. referenced by the endpoint URL)
         // > Note that we're not actually interested in the return value
         // > from this first `.replace()` here.
-        var routeParameters = {};
-        requestInfo.url.replace(/(\:[^\/\:\.\?]+\??)/g, function ($all, $1){
-          var routeParamName = $1.replace(/^\:/, '').replace(/\??$/, '');
+        var routeParameters = {}
+        requestInfo.url.replace(/(\:[^\/\:\.\?]+\??)/g, function ($all, $1) {
+          var routeParamName = $1.replace(/^\:/, '').replace(/\??$/, '')
 
           // Optional:
           if ($1.match(/\?$/)) {
             if (requestInfo.params && requestInfo.params[routeParamName]) {
-              routeParameters[routeParamName] = requestInfo.params[routeParamName];
+              routeParameters[routeParamName] = requestInfo.params[routeParamName]
             }
           }
           // Mandatory:
           else {
             if (!requestInfo.params || requestInfo.params[routeParamName] === undefined) {
-              throw new Error('Missing required param: `'+routeParamName+'`');
+              throw new Error('Missing required param: `' + routeParamName + '`')
             }
-            routeParameters[routeParamName] = requestInfo.params[routeParamName];
+            routeParameters[routeParamName] = requestInfo.params[routeParamName]
           }
-        });//∞
+        })// ∞
 
         // Then delete them from the `params` object
-        Object.keys(routeParameters).forEach(function (paramName){
-          delete requestInfo.params[paramName];
-        });
+        Object.keys(routeParameters).forEach(function (paramName) {
+          delete requestInfo.params[paramName]
+        })
 
         // Now stick the route parameters into the destination url
-        requestInfo.url = requestInfo.url.replace(/(\:[^\/\:\.\?]+\??)/g, function ($all, $1){
-          var routeParamName = $1.replace(/^\:/, '').replace(/\??$/, '');
-          if (routeParameters[routeParamName] === undefined) { return ''; }
-          return routeParameters[routeParamName];
-        });
-
-
+        requestInfo.url = requestInfo.url.replace(/(\:[^\/\:\.\?]+\??)/g, function ($all, $1) {
+          var routeParamName = $1.replace(/^\:/, '').replace(/\??$/, '')
+          if (routeParameters[routeParamName] === undefined) { return '' }
+          return routeParameters[routeParamName]
+        })
 
         // Prepend the API base URL to `requestInfo.url`.
-        /////////////////////////////////////////////////////////////////////////////
-        requestInfo.url = options.apiBaseUrl + requestInfo.url;
-
+        /// //////////////////////////////////////////////////////////////////////////
+        requestInfo.url = options.apiBaseUrl + requestInfo.url
 
         // Ensure verb exists, and then lower-case it.
-        /////////////////////////////////////////////////////////////////////////////
-        if (!requestInfo.verb) { throw new Error('CloudSDK endpoint (`'+methodName+'`) is invalid: No HTTP verb specified.  Please specify an HTTP verb (e.g. `GET`, `POST`, etc.)'); }
-        requestInfo.verb = (requestInfo.verb || 'get').toLowerCase();
-
+        /// //////////////////////////////////////////////////////////////////////////
+        if (!requestInfo.verb) { throw new Error('CloudSDK endpoint (`' + methodName + '`) is invalid: No HTTP verb specified.  Please specify an HTTP verb (e.g. `GET`, `POST`, etc.)') }
+        requestInfo.verb = (requestInfo.verb || 'get').toLowerCase()
 
         // Attach the `requestInfo` as a property on the Deferred object itself, for easier integration
         // with 3rd-party tools (e.g. autocomplete)
-        deferred.requestInfo = requestInfo;
+        deferred.requestInfo = requestInfo
 
         // Return the deferred object.
-        return deferred;
-
-      };//ƒ  </ _helpCallCloudMethod >
+        return deferred
+      }// ƒ  </ _helpCallCloudMethod >
 
       // Primary definition of this Cloud.* method()
       memo[methodName] = function () {
-
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         // FUTURE: If no `args` configured, then check route params (url pattern
         // variables).  If there are any, attempt to use their names... maybe?
@@ -1684,27 +1567,26 @@
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         if (!appLevelSdkEndpointDef.args && arguments.length > 0) {
           throw new Error(
-            'Cannot call this Cloud.*() method with serial usage because Cloud SDK is not aware of the appropriate parameter names!  Please pass in named parameter values using .with({…}) instead--or if you\'re the implementor of the corresponding Sails action, change it on the backend and regenerate the SDK so that this method is configured with an `args` array.\n'+
+            'Cannot call this Cloud.*() method with serial usage because Cloud SDK is not aware of the appropriate parameter names!  Please pass in named parameter values using .with({…}) instead--or if you\'re the implementor of the corresponding Sails action, change it on the backend and regenerate the SDK so that this method is configured with an `args` array.\n' +
             ' [?] If you\'re unsure, visit https://sailsjs.com/support for help.'
-          );
+          )
         }
 
         // Parse arguments into argins
-        var argins = _.reduce(arguments, function(argins, argin, i){
-
+        var argins = _.reduce(arguments, function (argins, argin, i) {
           if (!(appLevelSdkEndpointDef.args[i])) {
-            throw new Error('Invalid usage with serial arguments: Received unexpected '+(i===0?'first':i===1?'second':i===2?'third':(i+1)+'th')+' argument.');
+            throw new Error('Invalid usage with serial arguments: Received unexpected ' + (i === 0 ? 'first' : i === 1 ? 'second' : i === 2 ? 'third' : (i + 1) + 'th') + ' argument.')
           }
 
           // Reject special notation.
           // > Remember, if we made it to this point, we know it's valid b/c it's already been checked.
           if (appLevelSdkEndpointDef.args[i] === '{*}') {
             if (argin !== undefined && (!_.isObject(argin) || _.isArray(argin) || _.isFunction(argin))) {
-              throw new Error('Invalid usage with serial arguments: If provided, expected '+(i===0?'first':i===1?'second':i===2?'third':(i+1)+'th')+' argument to be a dictionary (plain JavaScript object, like `{}`).  But instead, got: '+argin+'');
+              throw new Error('Invalid usage with serial arguments: If provided, expected ' + (i === 0 ? 'first' : i === 1 ? 'second' : i === 2 ? 'third' : (i + 1) + 'th') + ' argument to be a dictionary (plain JavaScript object, like `{}`).  But instead, got: ' + argin + '')
             } else if (argin !== undefined && _.intersection(_.keys(argins), _.keys(argin)).length > 0) {
-              throw new Error('Invalid usage with serial arguments: If provided, expected '+(i===0?'first':i===1?'second':i===2?'third':(i+1)+'th')+' argument to have keys which DO NOT overlap with other already-configured argins!  But in reality, it contained conflicting keys: '+_.intersection(_.keys(argins), _.keys(argin))+'');
+              throw new Error('Invalid usage with serial arguments: If provided, expected ' + (i === 0 ? 'first' : i === 1 ? 'second' : i === 2 ? 'third' : (i + 1) + 'th') + ' argument to have keys which DO NOT overlap with other already-configured argins!  But in reality, it contained conflicting keys: ' + _.intersection(_.keys(argins), _.keys(argin)) + '')
             }
-            _.extend(argins, argin);
+            _.extend(argins, argin)
           } else {
             // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             // Note: For design considerations & historical context, see:
@@ -1718,33 +1600,29 @@
             // https://github.com/node-machine/spec/pull/2/files#diff-eba3c42d87dad8fb42b4080df85facecR66
             // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             // Otherwise interpret this as the code name of an input
-            argins[appLevelSdkEndpointDef.args[i]] = argin;
+            argins[appLevelSdkEndpointDef.args[i]] = argin
           }
 
-          return argins;
+          return argins
+        }, {})// = (∞)
 
-        }, {});//= (∞)
-
-        return _helpCallCloudMethod(argins);
-
-      };//ƒ
+        return _helpCallCloudMethod(argins)
+      }// ƒ
 
       // Escape hatch that always allows using named parameters.
       memo[methodName].with = function (argins) {
-        return _helpCallCloudMethod(argins);
-      };//ƒ
+        return _helpCallCloudMethod(argins)
+      }// ƒ
 
-      return memo;
-    }, {});//</ _.reduce() :: each defined endpoint method >
+      return memo
+    }, {})// </ _.reduce() :: each defined endpoint method >
 
     // Remove the `.setup()` method, now that it's been called.
-    delete Cloud.setup;
+    delete Cloud.setup
 
     // Now attach the methods
-    _.extend(Cloud, methods);
+    _.extend(Cloud, methods)
+  }
 
-  };
-
-  return Cloud;
-
-});
+  return Cloud
+})

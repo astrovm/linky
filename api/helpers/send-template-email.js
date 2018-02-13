@@ -1,17 +1,13 @@
 module.exports = {
 
-
   friendlyName: 'Send template email',
 
-
   description: 'Send an email using a template.',
-
 
   extendedDescription:
 `To ease testing and development, if the provided "to" email address ends in "@example.com",
 then the email message will be written to the terminal instead of actually being sent.
 (Thanks [@simonratner](https://github.com/simonratner)!)`,
-
 
   inputs: {
 
@@ -60,14 +56,13 @@ Instead, just log it to the console.`,
 
     layout: {
       description:
-      'Set to `false` to disable layouts altogether, or provide the path (relative '+
+      'Set to `false` to disable layouts altogether, or provide the path (relative ' +
       'from `views/layouts/`) to an override email layout.',
       defaultsTo: 'layout-email',
-      custom: (layout)=>layout===false || _.isString(layout)
+      custom: (layout) => layout === false || _.isString(layout)
     }
 
   },
-
 
   exits: {
 
@@ -81,44 +76,41 @@ Instead, just log it to the console.`,
 
   },
 
-
-  fn: async function(inputs, exits) {
-
-    var path = require('path');
-    var url = require('url');
-    var util = require('util');
-
+  fn: async function (inputs, exits) {
+    var path = require('path')
+    var url = require('url')
+    var util = require('util')
 
     if (!_.startsWith(path.basename(inputs.template), 'email-')) {
       sails.log.warn(
-        'The "template" that was passed in to `sendTemplateEmail()` does not begin with '+
-        '"email-" -- but by convention, all email template files in `views/emails/` should '+
-        'be namespaced in this way.  (This makes it easier to look up email templates by '+
-        'filename; e.g. when using CMD/CTRL+P in Sublime Text.)\n'+
+        'The "template" that was passed in to `sendTemplateEmail()` does not begin with ' +
+        '"email-" -- but by convention, all email template files in `views/emails/` should ' +
+        'be namespaced in this way.  (This makes it easier to look up email templates by ' +
+        'filename; e.g. when using CMD/CTRL+P in Sublime Text.)\n' +
         'Continuing regardless...'
-      );
+      )
     }
 
     if (_.startsWith(inputs.template, 'views/') || _.startsWith(inputs.template, 'emails/')) {
       throw new Error(
-        'The "template" that was passed in to `sendTemplateEmail()` was prefixed with\n'+
-        '`emails/` or `views/` -- but that part is supposed to be omitted.  Instead, please\n'+
-        'just specify the path to the desired email template relative from `views/emails/`.\n'+
-        'For example:\n'+
-        '  template: \'email-reset-password\'\n'+
-        'Or:\n'+
-        '  template: \'admin/email-contact-form\'\n'+
+        'The "template" that was passed in to `sendTemplateEmail()` was prefixed with\n' +
+        '`emails/` or `views/` -- but that part is supposed to be omitted.  Instead, please\n' +
+        'just specify the path to the desired email template relative from `views/emails/`.\n' +
+        'For example:\n' +
+        '  template: \'email-reset-password\'\n' +
+        'Or:\n' +
+        '  template: \'admin/email-contact-form\'\n' +
         ' [?] If you\'re unsure or need advice, see https://sailsjs.com/support'
-      );
-    }//•
+      )
+    }// •
 
     // Determine appropriate email layout and template to use.
-    var emailTemplatePath = path.join('emails/', inputs.template);
-    var layout;
+    var emailTemplatePath = path.join('emails/', inputs.template)
+    var layout
     if (inputs.layout) {
-      layout = path.relative(path.dirname(emailTemplatePath), path.resolve('layouts/', inputs.layout));
+      layout = path.relative(path.dirname(emailTemplatePath), path.resolve('layouts/', inputs.layout))
     } else {
-      layout = false;
+      layout = false
     }
 
     // Compile HTML template.
@@ -129,14 +121,14 @@ Instead, just log it to the console.`,
       emailTemplatePath,
       Object.assign({layout, url, util }, inputs.templateData)
     )
-    .intercept((err)=>{
+    .intercept((err) => {
       err.message =
-      'Could not compile view template.\n'+
-      '(Usually, this means the provided data is invalid, or missing a piece.)\n'+
-      'Details:\n'+
-      err.message;
-      return err;
-    });
+      'Could not compile view template.\n' +
+      '(Usually, this means the provided data is invalid, or missing a piece.)\n' +
+      'Details:\n' +
+      err.message
+      return err
+    })
 
     // Sometimes only log info to the console about the email that WOULD have been sent.
     // Specifically, if the "To" email address is anything "@example.com".
@@ -145,7 +137,7 @@ Instead, just log it to the console.`,
     // > for convenience during development, but also for safety.  (For example,
     // > a special-cased version of "user@example.com" is used by Trend Micro Mars
     // > scanner to "check apks for malware".)
-    var isToAddressConsideredFake = Boolean(inputs.to.match(/@example\.com$/i));
+    var isToAddressConsideredFake = Boolean(inputs.to.match(/@example\.com$/i))
 
     // If that's the case, or if we're in the "test" environment, then log
     // the email instead of sending it:
@@ -161,23 +153,23 @@ Subject: ${inputs.subject}
 
 Body:
 ${htmlEmailContents}
--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-`);
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-`)
     } else {
       // Otherwise, we'll check that all required Mailgun credentials are set up
       // and, if so, continue to actually send the email.
 
       if (!sails.config.custom.mailgunSecret || !sails.config.custom.mailgunDomain) {
         throw new Error(`Cannot deliver email to "${inputs.to}" because:
-          `+(()=>{
-            let problems = [];
+          ` + (() => {
+            let problems = []
             if (!sails.config.custom.mailgunSecret) {
-              problems.push(' • Mailgun secret is missing from this app\'s configuration (`sails.config.custom.mailgunSecret`)');
+              problems.push(' • Mailgun secret is missing from this app\'s configuration (`sails.config.custom.mailgunSecret`)')
             }
             if (!sails.config.custom.mailgunDomain) {
-              problems.push(' • Mailgun domain is missing from this app\'s configuration (`sails.config.custom.mailgunDomain`)');
+              problems.push(' • Mailgun domain is missing from this app\'s configuration (`sails.config.custom.mailgunDomain`)')
             }
-            return problems.join('\n');
-          })()+`
+            return problems.join('\n')
+          })() + `
 
 To resolve these configuration issues, add the missing config variables to
 \`config/custom.js\`-- or in staging/production, set them up as system
@@ -192,7 +184,7 @@ sign up for free at https://mailgun.com to receive sandbox credentials.)
 > from the terminal output into your browser.)
 
  [?] If you're unsure, visit https://sailsjs.com/support`
-        );
+        )
       }
 
       await sails.helpers.mailgun.sendHtmlEmail.with({
@@ -200,14 +192,13 @@ sign up for free at https://mailgun.com to receive sandbox credentials.)
         to: inputs.to,
         subject: inputs.subject,
         testMode: false
-      });
-    }//ﬁ
+      })
+    }// ﬁ
 
     // All done!
     return exits.success({
       loggedInsteadOfSending: isToAddressConsideredFake
-    });
-
+    })
   }
 
-};
+}

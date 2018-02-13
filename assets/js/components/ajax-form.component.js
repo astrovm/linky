@@ -24,7 +24,7 @@ parasails.registerComponent('ajaxForm', {
   // • cloudError
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   props: [
-    'syncing',// « 2-way bound (.sync)
+    'syncing', // « 2-way bound (.sync)
     'action',
     'handleParsing',
     'cloudError'// « 2-way bound (.sync)
@@ -33,9 +33,9 @@ parasails.registerComponent('ajaxForm', {
   //  ╦╔╗╔╦╔╦╗╦╔═╗╦    ╔═╗╔╦╗╔═╗╔╦╗╔═╗
   //  ║║║║║ ║ ║╠═╣║    ╚═╗ ║ ╠═╣ ║ ║╣
   //  ╩╝╚╝╩ ╩ ╩╩ ╩╩═╝  ╚═╝ ╩ ╩ ╩ ╩ ╚═╝
-  data: function (){
+  data: function () {
     return {
-    };
+    }
   },
 
   //  ╦ ╦╔╦╗╔╦╗╦
@@ -50,15 +50,15 @@ parasails.registerComponent('ajaxForm', {
   //  ╦  ╦╔═╗╔═╗╔═╗╦ ╦╔═╗╦  ╔═╗
   //  ║  ║╠╣ ║╣ ║  ╚╦╝║  ║  ║╣
   //  ╩═╝╩╚  ╚═╝╚═╝ ╩ ╚═╝╩═╝╚═╝
-  beforeMount: function() {
+  beforeMount: function () {
 
   },
 
-  mounted: function (){
+  mounted: function () {
 
   },
 
-  beforeDestroy: function() {
+  beforeDestroy: function () {
 
   },
 
@@ -69,59 +69,57 @@ parasails.registerComponent('ajaxForm', {
 
     submit: async function () {
       if (!this.action || !_.isString(this.action) || !_.isFunction(Cloud[_.camelCase(this.action)])) {
-        throw new Error('Missing or invalid `action` in <ajax-form>.  `action` should be the name of a method on the `Cloud` global.  For example: `action="login"` would make this form communicate using `Cloud.login()`, which corresponds to the "login" action on the server.');
-      }
-      else if (!_.isFunction(Cloud[this.action])) {
-        throw new Error('Unrecognized `action` in <ajax-form>.  Did you mean to type `action="'+_.camelCase(this.action)+'"`?  (<ajax-form> expects `action` to be provided in camlCase format.  In other words, to reference the action at "api/controllers/foo/bar/do-something", use `action="doSomething"`.)');
+        throw new Error('Missing or invalid `action` in <ajax-form>.  `action` should be the name of a method on the `Cloud` global.  For example: `action="login"` would make this form communicate using `Cloud.login()`, which corresponds to the "login" action on the server.')
+      } else if (!_.isFunction(Cloud[this.action])) {
+        throw new Error('Unrecognized `action` in <ajax-form>.  Did you mean to type `action="' + _.camelCase(this.action) + '"`?  (<ajax-form> expects `action` to be provided in camlCase format.  In other words, to reference the action at "api/controllers/foo/bar/do-something", use `action="doSomething"`.)')
       }
 
       if (!_.isFunction(this.handleParsing)) {
-        throw new Error('Missing or invalid `handle-parsing` in <ajax-form>.  For example: `:handle-parsing="handleParsingSomeForm"`.  This function should return a dictionary (plain JavaScript object like `{}`) of parsed form data, ready to be sent in a request to the server.');
+        throw new Error('Missing or invalid `handle-parsing` in <ajax-form>.  For example: `:handle-parsing="handleParsingSomeForm"`.  This function should return a dictionary (plain JavaScript object like `{}`) of parsed form data, ready to be sent in a request to the server.')
       }
 
       // Prevent double-posting.
       if (this.syncing) {
-        return;
+        return
       }
 
       // Clear the userland "cloudError" prop.
-      this.$emit('update:cloudError', '');
+      this.$emit('update:cloudError', '')
 
       // Run the provided "handle-parsing" logic.
       // > This should clear out any pre-existing error messages, perform any additional
       // > client-side form validation checks, and do any necessary data transformations
       // > to munge the form data into the format expected by the server.
-      var argins = this.handleParsing();
+      var argins = this.handleParsing()
 
       // If argins came back undefined, then avast.
       // (This means that parsing the form failed.)
       if (argins === undefined) {
-        return;
+        return
       } else if (!_.isObject(argins) || _.isArray(argins) || _.isFunction(argins)) {
-        throw new Error('Invalid data returned from custom form parsing logic.  (Should return a dictionary of argins, like `{}`.)');
+        throw new Error('Invalid data returned from custom form parsing logic.  (Should return a dictionary of argins, like `{}`.)')
       }
 
       // Set syncing state to `true` on userland "syncing" prop.
-      this.$emit('update:syncing', true);
+      this.$emit('update:syncing', true)
 
-      var didResponseIndicateFailure;
+      var didResponseIndicateFailure
       var result = await Cloud[this.action].with(argins)
-      .tolerate((err)=>{
+      .tolerate((err) => {
         // When a cloud error occurs, tolerate it, but set the userland "cloudError" prop accordingly.
-        this.$emit('update:cloudError', err.exit || 'error');
-        didResponseIndicateFailure = true;
-      });
+        this.$emit('update:cloudError', err.exit || 'error')
+        didResponseIndicateFailure = true
+      })
 
       // Set syncing state to `false` on userland "syncing" prop.
-      this.$emit('update:syncing', false);
+      this.$emit('update:syncing', false)
 
       // If the server says we were successful, then emit the "submitted" event.
       if (!didResponseIndicateFailure) {
-        this.$emit('submitted', result);
+        this.$emit('submitted', result)
       }
-
-    },
+    }
 
   }
 
-});
+})

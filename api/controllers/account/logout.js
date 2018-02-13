@@ -1,11 +1,8 @@
 module.exports = {
 
-
   friendlyName: 'Logout',
 
-
   description: 'Log out of this app.',
-
 
   extendedDescription:
 `This action deletes the \`req.session.userId\` key from the session of the requesting user agent.
@@ -15,7 +12,6 @@ you provided for it.
 
 Note that this action does not check to see whether or not the requesting user was
 actually logged in.  (If they weren't, then this action is just a no-op.)`,
-
 
   exits: {
 
@@ -31,22 +27,18 @@ actually logged in.  (If they weren't, then this action is just a no-op.)`,
 
   },
 
-
   fn: async function (inputs, exits) {
-
     // Clear the `userId` property from this session.
-    delete this.req.session.userId;
+    delete this.req.session.userId
 
     // Then finish up, sending an appropriate response.
     // > Under the covers, this persists the now-logged-out session back
     // > to the underlying session store.
     if (!this.req.wantsJSON) {
-      throw {redirect: '/login'};
+      throw {redirect: '/login'}
     } else {
-      return exits.success();
+      return exits.success()
     }
-
   }
 
-
-};
+}

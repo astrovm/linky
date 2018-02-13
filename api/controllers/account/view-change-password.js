@@ -1,11 +1,8 @@
 module.exports = {
 
-
   friendlyName: 'View change password',
 
-
   description: 'Display "Change password" page.',
-
 
   exits: {
 
@@ -15,12 +12,8 @@ module.exports = {
 
   },
 
-
   fn: async function (inputs, exits) {
-
-    return exits.success();
-
+    return exits.success()
   }
 
-
-};
+}

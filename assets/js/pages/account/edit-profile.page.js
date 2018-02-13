@@ -15,20 +15,20 @@ parasails.registerPage('edit-profile', {
     formErrors: { /* … */ },
 
     // Server error state for the form
-    cloudError: '',
+    cloudError: ''
 
   },
 
   //  ╦  ╦╔═╗╔═╗╔═╗╦ ╦╔═╗╦  ╔═╗
   //  ║  ║╠╣ ║╣ ║  ╚╦╝║  ║  ║╣
   //  ╩═╝╩╚  ╚═╝╚═╝ ╩ ╚═╝╩═╝╚═╝
-  beforeMount: function() {
+  beforeMount: function () {
     // Attach raw data exposed by the server.
-    _.extend(this, SAILS_LOCALS);
+    _.extend(this, SAILS_LOCALS)
 
     // Set the form data.
-    this.formData.fullName = this.me.fullName;
-    this.formData.emailAddress = this.me.emailChangeCandidate ? this.me.emailChangeCandidate : this.me.emailAddress;
+    this.formData.fullName = this.me.fullName
+    this.formData.emailAddress = this.me.emailChangeCandidate ? this.me.emailChangeCandidate : this.me.emailAddress
   },
 
   //  ╦╔╗╔╔╦╗╔═╗╦═╗╔═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
@@ -36,42 +36,39 @@ parasails.registerPage('edit-profile', {
   //  ╩╝╚╝ ╩ ╚═╝╩╚═╩ ╩╚═╝ ╩ ╩╚═╝╝╚╝╚═╝
   methods: {
 
-    submittedForm: function() {
-
+    submittedForm: function () {
       // Redirect to the account page on success.
       // > (Note that we re-enable the syncing state here.  This is on purpose--
       // > to make sure the spinner stays there until the page navigation finishes.)
-      this.syncing = true;
-      window.location = '/account';
-
+      this.syncing = true
+      window.location = '/account'
     },
 
-    handleParsingForm: function() {
-
+    handleParsingForm: function () {
       // Clear out any pre-existing error messages.
-      this.formErrors = {};
+      this.formErrors = {}
 
-      var argins = this.formData;
+      var argins = this.formData
 
       // Validate name:
-      if(!argins.fullName) {
-        this.formErrors.password = true;
+      if (!argins.fullName) {
+        this.formErrors.password = true
       }
 
       // Validate email:
-      if(!argins.emailAddress) {
-        this.formErrors.emailAddress = true;
+      if (!argins.emailAddress) {
+        this.formErrors.emailAddress = true
       }
 
       // If there were any issues, they've already now been communicated to the user,
       // so simply return undefined.  (This signifies that the submission should be
       // cancelled.)
       if (Object.keys(this.formErrors).length > 0) {
-        return;
+        return
       }
 
-      return argins;
-    },
+      return argins
+    }
 
   }
-});
+})

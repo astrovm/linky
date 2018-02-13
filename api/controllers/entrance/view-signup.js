@@ -1,16 +1,13 @@
 module.exports = {
 
-
   friendlyName: 'View signup',
 
-
   description: 'Display "Signup" page.',
-
 
   exits: {
 
     success: {
-      viewTemplatePath: 'pages/entrance/signup',
+      viewTemplatePath: 'pages/entrance/signup'
     },
 
     redirect: {
@@ -20,16 +17,12 @@ module.exports = {
 
   },
 
-
   fn: async function (inputs, exits) {
-
     if (this.req.me) {
-      throw {redirect: '/'};
+      throw {redirect: '/'}
     }
 
-    return exits.success();
-
+    return exits.success()
   }
 
-
-};
+}

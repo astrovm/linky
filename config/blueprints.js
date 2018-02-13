@@ -19,7 +19,6 @@ module.exports.blueprints = {
 
   // actions: false,
 
-
   /***************************************************************************
   *                                                                          *
   * Automatically expose RESTful routes for your models?                     *
@@ -28,7 +27,6 @@ module.exports.blueprints = {
 
   rest: false,
 
-
   /***************************************************************************
   *                                                                          *
   * Automatically expose CRUD "shortcut" routes to GET requests?             *
@@ -36,6 +34,6 @@ module.exports.blueprints = {
   *                                                                          *
   ***************************************************************************/
 
-  shortcuts: false,
+  shortcuts: false
 
-};
+}
