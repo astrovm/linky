@@ -17,7 +17,7 @@ module.exports = {
 
   exits: {
     success: {
-      description: 'Password is correct.',
+      description: 'Password is correct.'
     }
   },
 

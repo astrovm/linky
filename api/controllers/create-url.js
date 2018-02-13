@@ -37,7 +37,7 @@ module.exports = {
 
   exits: {
     success: {
-      description: 'URL was shorted successfully.',
+      description: 'URL was shorted successfully.'
     }
   },
 
