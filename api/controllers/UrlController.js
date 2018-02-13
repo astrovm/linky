@@ -8,8 +8,8 @@
 module.exports = {
   redirectUrl: function (req, res) {
     const urlId = req.url.slice(1)
+    const url = await sails.helpers.getUrl({ urlId: urlId })
 
-    UrlService.getUrl(urlId, function (url) {
       if (url != undefined) {
         res.set('Cache-Control', 'public, max-age=5')
         // Check if the URL has password and request it in that case
@@ -18,38 +18,37 @@ module.exports = {
         } else {
           res.view('layout')
         }
-        if (url.teleid && url.telealerts) {
-          const useragent = require('useragent')
-          const agent = useragent.parse(req.headers['user-agent'])
+        if (url.teleId && url.teleAlerts) {
+          const userAgent = require('useragent')
+          const agent = userAgent.parse(req.headers['user-agent'])
           const teleParams = {
             ip: req.ip,
             geo: req.headers['cf-ipcountry'],
             agent: agent.toString(),
-            teleid: url.teleid,
+            teleId: url.teleId,
             urlAlias: url.id,
             target: url.target
           }
-          UrlService.teleAlert(teleParams)
+          sails.helpers.sendTelegramAlert(teleParams)
         }
       } else {
         return res.json("This alias doesn't exist.")
       }
     })
   },
-  createUrl: function (req, res) {
+  createUrl: async function (req, res) {
     const urlParams = {
       id: req.param('id'),
       target: req.param('target'),
-      emailalerts: req.param('emailalerts'),
-      telealerts: req.param('telealerts'),
+      emailAlerts: req.param('emailAlerts'),
+      teleAlerts: req.param('teleAlerts'),
       captcha: req.param('captcha'),
       password: req.param('password'),
       email: req.param('email')
     }
 
-    UrlService.createUrl(urlParams, function (url) {
-      return res.json(url)
-    })
+    const url = await sails.helpers.createUrl(urlParams)
+    return res.json(url)
   },
   sendPass: function (req, res) {
     const urlParams = {
@@ -57,8 +56,7 @@ module.exports = {
       passwordAttempt: req.param('password')
     }
 
-    UrlService.sendPass(urlParams, function (url) {
-      return res.json(url)
-    })
+    const url = await sails.helpers.checkUrlPass(urlParams)
+    return res.json(url)
   }
 }
