@@ -6,6 +6,7 @@
  */
 
 module.exports = {
+  primaryKey: 'id',
   attributes: {
 
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
@@ -15,14 +16,13 @@ module.exports = {
     id: {
       type: 'string',
       unique: true,
-      primaryKey: true,
       required: true
     },
     target: {
       type: 'string',
       required: true
     },
-    teleId: 'integer',
+    teleId: 'number',
     teleAlerts: 'boolean',
     emailAlerts: 'boolean',
     captcha: 'boolean',
@@ -30,7 +30,7 @@ module.exports = {
     secretKey: 'string',
     email: {
       type: 'string',
-      email: true
+      isEmail: true
     }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

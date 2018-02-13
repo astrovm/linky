@@ -1,11 +1,3 @@
-/**
- * UrlController
- *
- * @description :: Server-side actions for handling incoming requests.
- * @help        :: See https://sailsjs.com/docs/concepts/actions
- */
-
-module.exports = {
   redirectUrl: function (req, res) {
     const urlId = req.url.slice(1)
     const url = await sails.helpers.getUrl({ urlId: urlId })
@@ -36,27 +28,3 @@ module.exports = {
       }
     })
   },
-  createUrl: async function (req, res) {
-    const urlParams = {
-      id: req.param('id'),
-      target: req.param('target'),
-      emailAlerts: req.param('emailAlerts'),
-      teleAlerts: req.param('teleAlerts'),
-      captcha: req.param('captcha'),
-      password: req.param('password'),
-      email: req.param('email')
-    }
-
-    const url = await sails.helpers.createUrl(urlParams)
-    return res.json(url)
-  },
-  sendPass: function (req, res) {
-    const urlParams = {
-      id: req.param('id'),
-      passwordAttempt: req.param('password')
-    }
-
-    const url = await sails.helpers.checkUrlPass(urlParams)
-    return res.json(url)
-  }
-}

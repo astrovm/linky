@@ -34,7 +34,7 @@ module.exports = {
   exits: {
     success: {
       outputFriendlyName: 'The object of the url that was created in the database.',
-      outputType: 'object'
+      outputType: {}
     }
   },
 
