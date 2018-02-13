@@ -22,12 +22,12 @@ module.exports = {
       type: 'string',
       required: true
     },
-    teleid: 'integer',
-    telealerts: 'boolean',
-    emailalerts: 'boolean',
+    teleId: 'integer',
+    teleAlerts: 'boolean',
+    emailAlerts: 'boolean',
     captcha: 'boolean',
     password: 'string',
-    secretkey: 'string',
+    secretKey: 'string',
     email: {
       type: 'string',
       email: true

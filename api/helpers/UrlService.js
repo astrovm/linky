@@ -1,6 +1,4 @@
 const countries = require('country-list')()
-const Passwords = require('machinepack-passwords')
-const URLs = require('machinepack-urls')
 const TelegramBot = require('node-telegram-bot-api')
 const bot = new TelegramBot(process.env.TELE_TOKEN, { polling: true })
 
@@ -65,7 +63,6 @@ bot.onText(/\/?alert (.+)/i, function (msg, match) {
 })
 
 module.exports = {
-
   teleAlert: function (teleParams) {
     if (teleParams.geo) {
       teleParams.geo = countries.getName(teleParams.geo)
@@ -73,71 +70,6 @@ module.exports = {
     bot.sendMessage(teleParams.teleid, teleParams.ip + ' with ' + teleParams.agent + ' in ' + teleParams.urlAlias + ' ==> ' + teleParams.target + ' from ' + teleParams.geo)
   },
 
-  createUrl: function (urlParams, next) {
-    // Validate custom alias, If -custom alias- is not defined generate a random one
-    if (!urlParams.id) {
-      urlParams.id = require('randomstring').generate(6)
-    } else if (urlParams.id.match(/\.+/)) {
-      next("Aliases can't contain points.")
-    }
-
-    UrlService.getUrl(urlParams.id, function (url) {
-      if (url) {
-        next("This alias isn't available.")
-      } else {
-        // Validate that the url it's not empty and has http in front - if not, add it
-        if (!urlParams.target) {
-          next('Insert a URL.')
-        }
-
-        if (urlParams.telealerts) {
-          urlParams.secretkey = require('randomstring').generate()
-        }
-
-        URLs.resolve({
-          url: urlParams.target
-        }).exec({
-          // An unexpected error occurred.
-          error: function (err) {
-            next('An unexpected error occurred.')
-          },
-          // The provided URL is not valid.
-          invalid: function () {
-            next('The provided URL is not valid.')
-          },
-          // OK.
-          success: function (res) {
-            urlParams.target = res
-            // encryptPassword
-            if (urlParams.password) {
-              // Encrypt a string using the BCrypt algorithm.
-              Passwords.encryptPassword({
-                password: urlParams.password
-              }).exec({
-                // An unexpected error occurred.
-                error: function (err) {
-                  next('An unexpected error occurred.')
-                },
-                // OK.
-                success: function (result) {
-                  urlParams.password = result
-                  Url.create(urlParams).exec(function (err, url) {
-                    if (err) throw err
-                    next(url)
-                  })
-                }
-              })
-            } else {
-              Url.create(urlParams).exec(function (err, url) {
-                if (err) throw err
-                next(url)
-              })
-            }
-          }
-        })
-      }
-    })
-  },
   sendPass: function (urlParams, next) {
     UrlService.getUrl(urlParams.id, function (url) {
       if (url) {
