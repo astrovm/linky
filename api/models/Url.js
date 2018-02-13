@@ -1,31 +1,45 @@
 /**
  * Url.js
  *
- * @description :: TODO: You might write a short summary of how this model works and what it represents here.
- * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
+ * @description :: A model definition.  Represents a database table/collection/etc.
+ * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
 module.exports = {
+  primaryKey: 'id',
   attributes: {
+
+    //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
+    //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
+    //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
+
     id: {
       type: 'string',
       unique: true,
-      primaryKey: true,
       required: true
     },
     target: {
       type: 'string',
       required: true
     },
-    teleid: 'integer',
-    telealerts: 'boolean',
-    emailalerts: 'boolean',
+    teleId: 'number',
+    teleAlerts: 'boolean',
+    emailAlerts: 'boolean',
     captcha: 'boolean',
     password: 'string',
-    secretkey: 'string',
+    secretKey: 'string',
     email: {
       type: 'string',
-      email: true
+      isEmail: true
     }
+
+    //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
+    //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
+    //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝
+
+    //  ╔═╗╔═╗╔═╗╔═╗╔═╗╦╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
+    //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
+    //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
+
   }
-};
+}

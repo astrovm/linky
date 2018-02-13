@@ -34,7 +34,6 @@ module.exports.security = {
   //   allowCredentials: false,
   // },
 
-
   /****************************************************************************
   *                                                                           *
   * CSRF protection should be enabled for this application.                   *
@@ -46,4 +45,4 @@ module.exports.security = {
 
   csrf: true
 
-};
+}

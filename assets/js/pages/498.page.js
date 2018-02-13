@@ -9,11 +9,11 @@ parasails.registerPage('[id="498"]', {
   //  ╦  ╦╔═╗╔═╗╔═╗╦ ╦╔═╗╦  ╔═╗
   //  ║  ║╠╣ ║╣ ║  ╚╦╝║  ║  ║╣
   //  ╩═╝╩╚  ╚═╝╚═╝ ╩ ╚═╝╩═╝╚═╝
-  beforeMount: function() {
+  beforeMount: function () {
     // Attach any initial data from the server.
-    _.extend(this, SAILS_LOCALS);
+    _.extend(this, SAILS_LOCALS)
   },
-  mounted: function(){
+  mounted: function () {
 
   },
 
@@ -23,4 +23,4 @@ parasails.registerPage('[id="498"]', {
   methods: {
 
   }
-});
+})

@@ -1,18 +1,14 @@
 module.exports = {
 
-
   friendlyName: 'Login',
 
-
   description: 'Log in using the provided email and password combination.',
-
 
   extendedDescription:
 `This action attempts to look up the user record in the database with the
 specified email address.  Then, if such a user exists, it uses
 bcrypt to compare the hashed password from the database with the provided
 password attempt.`,
-
 
   inputs: {
 
@@ -37,7 +33,6 @@ requests over WebSockets instead of HTTP).`,
     }
 
   },
-
 
   exits: {
 
@@ -68,24 +63,22 @@ and exposed as \`req.me\`.)`
 
   },
 
-
   fn: async function (inputs, exits) {
-
     // Look up by the email address.
     // (note that we lowercase it to ensure the lookup is always case-insensitive,
     // regardless of which database we're using)
     var userRecord = await User.findOne({
-      emailAddress: inputs.emailAddress.toLowerCase(),
-    });
+      emailAddress: inputs.emailAddress.toLowerCase()
+    })
 
     // If there was no matching user, respond thru the "badCombo" exit.
-    if(!userRecord) {
-      throw 'badCombo';
+    if (!userRecord) {
+      throw 'badCombo'
     }
 
     // If the password doesn't match, then also exit thru "badCombo".
     await sails.helpers.passwords.checkPassword(inputs.password, userRecord.password)
-    .intercept('incorrect', 'badCombo');
+    .intercept('incorrect', 'badCombo')
 
     // If "Remember Me" was enabled, then keep the session alive for
     // a longer amount of time.  (This causes an updated "Set Cookie"
@@ -95,21 +88,20 @@ and exposed as \`req.me\`.)`
     if (inputs.rememberMe) {
       if (this.req.isSocket) {
         sails.log.warn(
-          'Received `rememberMe: true` from a virtual request, but it was ignored\n'+
-          'because a browser\'s session cookie cannot be reset over sockets.\n'+
+          'Received `rememberMe: true` from a virtual request, but it was ignored\n' +
+          'because a browser\'s session cookie cannot be reset over sockets.\n' +
           'Please use a traditional HTTP request instead.'
-        );
+        )
       } else {
-        this.req.session.cookie.maxAge = sails.config.custom.rememberMeCookieMaxAge;
+        this.req.session.cookie.maxAge = sails.config.custom.rememberMeCookieMaxAge
       }
-    }//ﬁ
+    }// ﬁ
 
     // Modify the active session instance.
-    this.req.session.userId = userRecord.id;
+    this.req.session.userId = userRecord.id
 
     // Send success response (this is where the session actually gets persisted)
-    return exits.success();
-
+    return exits.success()
   }
 
-};
+}

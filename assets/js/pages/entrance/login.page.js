@@ -15,19 +15,19 @@ parasails.registerPage('login', {
     formErrors: { /* … */ },
 
     // Server error state for the form
-    cloudError: '',
+    cloudError: ''
 
   },
 
   //  ╦  ╦╔═╗╔═╗╔═╗╦ ╦╔═╗╦  ╔═╗
   //  ║  ║╠╣ ║╣ ║  ╚╦╝║  ║  ║╣
   //  ╩═╝╩╚  ╚═╝╚═╝ ╩ ╚═╝╩═╝╚═╝
-  beforeMount: function() {
+  beforeMount: function () {
     // Attach any initial data from the server.
-    _.extend(this, SAILS_LOCALS);
+    _.extend(this, SAILS_LOCALS)
   },
-  mounted: function() {
-    this.$focus('[autofocus]');
+  mounted: function () {
+    this.$focus('[autofocus]')
   },
 
   //  ╦╔╗╔╔╦╗╔═╗╦═╗╔═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
@@ -42,42 +42,39 @@ parasails.registerPage('login', {
     // https://github.com/sailshq/caviar/commit/512eb41c347f9bcdebc2d1bca8b15d8a0acd80f1
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    submittedForm: function() {
-
+    submittedForm: function () {
       // Redirect to the logged-in dashboard on success.
       // > (Note that we re-enable the syncing state here.  This is on purpose--
       // > to make sure the spinner stays there until the page navigation finishes.)
-      this.syncing = true;
-      window.location = '/';
-
+      this.syncing = true
+      window.location = '/'
     },
 
-    handleParsingForm: function() {
-
+    handleParsingForm: function () {
       // Clear out any pre-existing error messages.
-      this.formErrors = {};
+      this.formErrors = {}
 
-      var argins = this.formData;
+      var argins = this.formData
 
       // Validate email:
-      if(!argins.emailAddress) {
-        this.formErrors.emailAddress = true;
+      if (!argins.emailAddress) {
+        this.formErrors.emailAddress = true
       }
 
       // Validate password:
-      if(!argins.password) {
-        this.formErrors.password = true;
+      if (!argins.password) {
+        this.formErrors.password = true
       }
 
       // If there were any issues, they've already now been communicated to the user,
       // so simply return undefined.  (This signifies that the submission should be
       // cancelled.)
       if (Object.keys(this.formErrors).length > 0) {
-        return;
+        return
       }
 
-      return argins;
-    },
+      return argins
+    }
 
   }
-});
+})

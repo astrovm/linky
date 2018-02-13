@@ -18,19 +18,19 @@ parasails.registerPage('forgot-password', {
     cloudError: '',
 
     // Success state when form has been submitted
-    cloudSuccess: false,
+    cloudSuccess: false
 
   },
 
   //  ╦  ╦╔═╗╔═╗╔═╗╦ ╦╔═╗╦  ╔═╗
   //  ║  ║╠╣ ║╣ ║  ╚╦╝║  ║  ║╣
   //  ╩═╝╩╚  ╚═╝╚═╝ ╩ ╚═╝╩═╝╚═╝
-  beforeMount: function() {
+  beforeMount: function () {
     // Attach any initial data from the server.
-    _.extend(this, SAILS_LOCALS);
+    _.extend(this, SAILS_LOCALS)
   },
-  mounted: function() {
-    this.$focus('[autofocus]');
+  mounted: function () {
+    this.$focus('[autofocus]')
   },
 
   //  ╦╔╗╔╔╦╗╔═╗╦═╗╔═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
@@ -38,32 +38,31 @@ parasails.registerPage('forgot-password', {
   //  ╩╝╚╝ ╩ ╚═╝╩╚═╩ ╩╚═╝ ╩ ╩╚═╝╝╚╝╚═╝
   methods: {
 
-    handleParsingForm: function() {
-
+    handleParsingForm: function () {
       // Clear out any pre-existing error messages.
-      this.formErrors = {};
+      this.formErrors = {}
 
-      var argins = this.formData;
+      var argins = this.formData
 
       // Validate email:
-      if(!argins.emailAddress) {
-        this.formErrors.emailAddress = true;
+      if (!argins.emailAddress) {
+        this.formErrors.emailAddress = true
       }
 
       // If there were any issues, they've already now been communicated to the user,
       // so simply return undefined.  (This signifies that the submission should be
       // cancelled.)
       if (Object.keys(this.formErrors).length > 0) {
-        return;
+        return
       }
 
-      return argins;
+      return argins
     },
 
-    submittedForm: function() {
+    submittedForm: function () {
       // If it worked, show the success message.
-      this.cloudSuccess = true;
-    },
+      this.cloudSuccess = true
+    }
 
   }
-});
+})

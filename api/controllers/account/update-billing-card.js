@@ -1,11 +1,8 @@
 module.exports = {
 
-
   friendlyName: 'Update billing card',
 
-
   description: 'Update the credit card for the logged-in user.',
-
 
   inputs: {
 
@@ -45,19 +42,17 @@ module.exports = {
       example: '2023',
       description: 'Omit if removing card info.',
       whereToGet: { description: 'Credit card info is provided by Stripe after completing the checkout flow.' }
-    },
+    }
 
   },
 
-
   fn: async function (inputs, exits) {
-
     // Add, update, or remove the default payment source for the logged-in user's
     // customer entry in Stripe.
     var stripeCustomerId = await sails.helpers.stripe.saveBillingInfo.with({
       stripeCustomerId: this.req.me.stripeCustomerId,
-      token: inputs.stripeToken || '',
-    });
+      token: inputs.stripeToken || ''
+    })
 
     // Update (or clear) the card info we have stored for this user in our database.
     // > Remember, never store complete card numbers-- only the last 4 digits + expiration!
@@ -66,15 +61,14 @@ module.exports = {
     await User.update({ id: this.req.me.id })
     .set({
       stripeCustomerId,
-      hasBillingCard: inputs.stripeToken ? true : false,
+      hasBillingCard: !!inputs.stripeToken,
       billingCardBrand: inputs.stripeToken ? inputs.billingCardBrand : '',
       billingCardLast4: inputs.stripeToken ? inputs.billingCardLast4 : '',
       billingCardExpMonth: inputs.stripeToken ? inputs.billingCardExpMonth : '',
       billingCardExpYear: inputs.stripeToken ? inputs.billingCardExpYear : ''
-    });
+    })
 
-    return exits.success();
+    return exits.success()
   }
 
-
-};
+}
