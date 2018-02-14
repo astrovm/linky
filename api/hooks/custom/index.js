@@ -17,9 +17,7 @@ module.exports = function defineCustomHook (sails) {
       sails.log.info('Initializing hook... (`api/hooks/custom`)')
 
       // Check Stripe/Mailgun configuration (for billing and emails).
-      var IMPORTANT_STRIPE_CONFIG = ['stripeSecret', 'stripePublishableKey']
       var IMPORTANT_MAILGUN_CONFIG = ['mailgunSecret', 'mailgunDomain', 'internalEmailAddress']
-      var isMissingStripeConfig = _.difference(IMPORTANT_STRIPE_CONFIG, Object.keys(sails.config.custom)).length > 0
       var isMissingMailgunConfig = _.difference(IMPORTANT_MAILGUN_CONFIG, Object.keys(sails.config.custom)).length > 0
 
       if (isMissingStripeConfig || isMissingMailgunConfig) {

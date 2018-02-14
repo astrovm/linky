@@ -79,9 +79,6 @@ then redirect to either a special landing page (for newly-signed up users), or t
       //  ┌─┐┌─┐┌┐┌┌─┐┬┬─┐┌┬┐┬┌┐┌┌─┐  ╔═╗╦ ╦╔═╗╔╗╔╔═╗╔═╗╔╦╗  ┌─┐┌┬┐┌─┐┬┬
       //  │  │ ││││├┤ │├┬┘││││││││ ┬  ║  ╠═╣╠═╣║║║║ ╦║╣  ║║  ├┤ │││├─┤││
       //  └─┘└─┘┘└┘└  ┴┴└─┴ ┴┴┘└┘└─┘  ╚═╝╩ ╩╩ ╩╝╚╝╚═╝╚═╝═╩╝  └─┘┴ ┴┴ ┴┴┴─┘
-      if (!user.emailChangeCandidate) {
-        throw new Error(`Consistency violation: Could not update Stripe customer because this user record's emailChangeCandidate ("${user.emailChangeCandidate}") is missing.  (This should never happen.)`)
-      }
 
       // Last line of defense: since email change candidates are not protected
       // by a uniqueness constraint in the database, it's important that we make
@@ -90,26 +87,6 @@ then redirect to either a special landing page (for newly-signed up users), or t
       // see exit description.)
       if (await User.count({ emailAddress: user.emailChangeCandidate }) > 0) {
         throw 'emailAddressNoLongerAvailable'
-      }
-
-      // If billing features are enabled, also update the billing email for this
-      // user's linked customer entry in the Stripe API to make sure they receive
-      // email receipts.
-      // > Note: If there was not already a Stripe customer entry for this user,
-      // > then one will be set up implicitly, so we'll need to persist it to our
-      // > database.  (This could happen if Stripe credentials were not configured
-      // > at the time this user was originally created.)
-      if (sails.config.custom.enableBillingFeatures) {
-        let didNotAlreadyHaveCustomerId = (!user.stripeCustomerId)
-        let stripeCustomerId = await sails.helpers.stripe.saveBillingInfo.with({
-          stripeCustomerId: user.stripeCustomerId,
-          emailAddress: user.emailChangeCandidate
-        })
-        if (didNotAlreadyHaveCustomerId) {
-          await User.update({ id: user.id }).set({
-            stripeCustomerId
-          })
-        }
       }
 
       // Finally update the user in the database, store their id in the session
