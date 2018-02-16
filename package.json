@@ -20,7 +20,7 @@
     "socket.io-redis": "5.2.0"
   },
   "devDependencies": {
-    "eslint": "4.11.0",
+    "eslint": "4.18.0",
     "grunt": "1.0.1",
     "sails-hook-grunt": "^3.0.2"
   },
