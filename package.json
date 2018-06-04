@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "eslint": "4.11.0",
-    "grunt": "1.0.1",
+    "grunt": "1.0.3",
     "sails-hook-grunt": "^3.0.2"
   },
   "scripts": {
