@@ -6,7 +6,7 @@
   "keywords": [],
   "dependencies": {
     "bower": "^1.7.9",
-    "connect-redis": "^3.1.0",
+    "connect-redis": "^3.4.1",
     "country-list": "0.0.3",
     "ejs": "2.3.4",
     "forever": "^0.15.2",
